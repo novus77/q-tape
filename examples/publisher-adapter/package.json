@@ -1,0 +1,16 @@
+{
+  "name": "@qtape/publisher-adapter-example",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./adapter.ts",
+  "dependencies": {
+    "@qtape/client": "workspace:*",
+    "@qtape/protocol": "workspace:*",
+    "@qtape/schema": "workspace:*",
+    "@qtape/signer": "workspace:*"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@qtape/client",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@qtape/protocol": "workspace:*",
+    "@qtape/schema": "workspace:*",
+    "viem": "2.57.7"
+  },
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  }
+}

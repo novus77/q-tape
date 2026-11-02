@@ -1,6 +1,6 @@
 # Q-Tape 三项权限验证结果
 
-日期：2026-11-02（Asia/Shanghai）。范围：本地 X Layer fork 与最小实验 Guardian。
+日期：2026-11-02（Asia/Shanghai）。范围：本地 X Layer fork 与最小实验 Guardian。M1 产品实现的独立验收记录见 [ACCEPTANCE.md](ACCEPTANCE.md)；本文件保留历史 PoC 证据，不把实验结论当作产品安全审计。
 
 历史参考结果归档于 `evidence/2026-11-02/`；以下报告描述该次实验。[独立仓库重跑](../evidence/standalone-2026-11-02/README.md)同样通过 21 项测试和 5 个行为用例；新测试密钥下发布/转出 gas 分别为 3,290,735 / 3,038,459，全部为本地交易。
 

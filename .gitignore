@@ -15,3 +15,6 @@ node_modules/
 *.key
 *.pem
 *.log
+
+# generated web bundle
+apps/web/public/build/
