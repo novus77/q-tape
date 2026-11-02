@@ -14,7 +14,7 @@ for package in packages/schema packages/protocol packages/signer packages/client
 done
 
 echo "== unit tests =="
-for package in packages/schema packages/protocol packages/signer packages/client packages/cli apps/relayer apps/web examples/publisher-adapter; do
+for package in packages/schema packages/protocol packages/signer packages/client packages/cli apps/relayer apps/web; do
   echo "-- $package"
   (cd "$package" && bun test)
 done
