@@ -33,7 +33,7 @@
 - [x] 迁入选定的 PoC 源码、测试和历史公开证据，不迁入私钥。
 - [x] 为独立仓库定义本地依赖、锁定版本和复现入口。
 - [x] 在独立仓库重新执行完整验证并记录结果：21/21 测试、8 笔本地交易覆盖 5 个行为用例。
-- [ ] 完成规范 builder check，创建公开 GitHub 仓库并推送 `dev`。
+- [x] 完成规范 builder check，创建[公开 GitHub 仓库](https://github.com/novus77/q-tape)并推送默认分支 `dev`。
 
 ## Task M1.1：Schema 与签名协议
 
