@@ -28,6 +28,7 @@ const allowed = process.env.Q_TAPE_RELAYER_ALLOWED_GUARDIANS
 const store = new RelayStore(dbPath);
 const chain = new ViemRelayChain({
   rpcUrl,
+  ...(process.env.Q_TAPE_RELAYER_SECONDARY_RPC_URL ? { secondaryRpcUrl: process.env.Q_TAPE_RELAYER_SECONDARY_RPC_URL } : {}),
   chainId,
   privateKey,
   maxGas: BigInt(process.env.Q_TAPE_RELAYER_MAX_GAS ?? "8000000"),

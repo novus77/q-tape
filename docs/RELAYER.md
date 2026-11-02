@@ -19,6 +19,7 @@ digest 是幂等请求 ID。相同 digest 重复提交返回原记录，不会�
 ```bash
 # 只用于本地 fork；私钥文件是 relayer 自己的 gas 资金密钥，不是 Falcon 私钥
 Q_TAPE_RELAYER_RPC_URL=http://127.0.0.1:18545 \
+Q_TAPE_RELAYER_SECONDARY_RPC_URL=http://127.0.0.1:18546 \
 Q_TAPE_RELAYER_PRIVATE_KEY_FILE=./relayer-gas.key \
 Q_TAPE_RELAYER_ALLOWED_GUARDIANS=0xVault \
 Q_TAPE_RELAYER_MAX_GAS=8000000 \
@@ -33,4 +34,5 @@ SQLite 数据库由 `Q_TAPE_RELAYER_DB_PATH` 指定（默认 `./.qtape/relayer.s
 - relayer 数据库或 gas 私钥泄露不能单独取得受保护 NFT，也不能创建新的发布授权；它仍持有自己的 gas 资金风险。
 - relayer 不修改、拆分、重排或更换已签请求，只提交确切 calldata。
 - relayer 的 `maxGas`/`maxValue` 是服务政策，不是协议保证；用户可换服务或自行广播。
-- 未实现：多 RPC 一致性检查（当前 relayer 使用单一 RPC；严格生产部署应在提交前增加双运营方校验）、动态费用市场、分布式幂等存储。
+- 已实现可选 `Q_TAPE_RELAYER_SECONDARY_RPC_URL`：提交前对同一区块 hash、Guardian code 与 nonce 做双端点比较，不一致返回 `RPC_DISAGREEMENT`。未配置时仍为单 RPC，严格生产部署应配置两个独立运营方。
+- 未实现：动态费用市场、分布式幂等存储。
