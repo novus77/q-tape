@@ -82,12 +82,12 @@ export async function listSitePaths(
   );
   if (count > cap) clientError("FILE_INVALID", `site has ${count} paths, above enumeration cap ${cap}`);
   const paths: string[] = [];
-  for (let offset = 0; offset < count; offset += 200) {
+  for (let offset = 0; offset < count; offset += 50) {
     const batch = await provider.client.readContract({
       address: registry,
       abi: registryAbi,
       functionName: "pathsRange",
-      args: [container, BigInt(offset), BigInt(Math.min(200, count - offset))],
+      args: [container, BigInt(offset), BigInt(Math.min(50, count - offset))],
       blockNumber,
     });
     paths.push(...batch);

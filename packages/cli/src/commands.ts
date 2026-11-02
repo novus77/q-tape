@@ -263,7 +263,17 @@ async function commandRequestSubmit(args: ParsedArgs, rest: string[]) {
   }
   const walletAddress = flagString(args, "wallet-address");
   const walletKeyFile = flagString(args, "wallet-key-file");
+  const profile = getProfile(flagString(args, "profile"));
+  const rpc = rpcUrls(args)?.[0] ?? profile.runtimeRpcUrls[0]!;
   if (!walletAddress && !walletKeyFile) {
+    const simulation = await simulateSignedRequest({
+      signedRequest: signed,
+      rpcUrl: rpc,
+      chainId: profile.chainId,
+      from: flagString(args, "simulate-from") as Hex | undefined,
+      gasBudget: flagString(args, "gas-budget") ?? DEFAULT_RELEASE_LIMITS.gasBudget,
+    });
+    if (!simulation.withinBudget) throw new Error(`BUDGET_EXCEEDED: estimated ${simulation.gasEstimate} > ${simulation.gasBudget}`);
     return {
       unsignedTransaction: {
         chainId: Number(signed.request.chainId),
@@ -271,11 +281,10 @@ async function commandRequestSubmit(args: ParsedArgs, rest: string[]) {
         data: encodeExecuteData(signed),
         value: totalCallValue(signed).toString(),
       },
+      simulation,
       note: "submit this transaction with any wallet, or pass --relayer, --wallet-address (unlocked local node) or --wallet-key-file (local test only)",
     };
   }
-  const profile = getProfile(flagString(args, "profile"));
-  const rpc = rpcUrls(args)?.[0] ?? profile.runtimeRpcUrls[0]!;
   const localAccount = walletKeyFile ? privateKeyToAccount((await Bun.file(walletKeyFile).text()).trim() as Hex) : null;
   const accountAddress = walletAddress ? (walletAddress as Hex) : localAccount!.address;
   const simulation = await simulateSignedRequest({
