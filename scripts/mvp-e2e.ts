@@ -182,6 +182,22 @@ try {
   if (!relayerReady) throw new Error("relayer did not become healthy");
   record("relayer-healthy", { port: relayerPort });
 
+  const metricsResponse = await fetch(`http://127.0.0.1:${relayerPort}/metrics`);
+  if (!metricsResponse.ok) throw new Error(`relayer metrics HTTP ${metricsResponse.status}`);
+  const metrics = await metricsResponse.json() as { ok: boolean; requests: { total: number; byStatus: Record<string, number> } };
+  if (!metrics.ok) throw new Error("relayer metrics not ok");
+  record("relayer-metrics", metrics.requests);
+
+  const monitor = Bun.spawnSync([
+    "bun", resolve(ROOT, "scripts/monitor.ts"),
+    "--relayer", `http://127.0.0.1:${relayerPort}`,
+    "--rpc", ENDPOINT,
+    "--chain-id", "196",
+    "--max-lag", "300",
+  ], { cwd: ROOT, stdout: "pipe", stderr: "pipe" });
+  if (monitor.exitCode !== 0) throw new Error(`monitor probe failed: ${new TextDecoder().decode(monitor.stderr)}`);
+  record("monitor-probe", JSON.parse(new TextDecoder().decode(monitor.stdout)));
+
   const deployHead = deployReceipt.blockNumber.toString();
   const beforeDeposit = requireOk(await runCli(["inspect", "10.2.4.tape", "--rpc", ENDPOINT, "--rpc", `http://127.0.0.1:${PROXY_PORT}`, "--block", deployHead, "--json"]), "inspect before deposit");
   record("inspect-before-deposit", { protection: beforeDeposit.protection, holder: beforeDeposit.holder });

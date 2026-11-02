@@ -13,6 +13,7 @@
 - [x] relayer `/metrics` 汇总请求总数、状态分布和最后更新时间，不暴露请求签名/私钥。
 - [x] `scripts/monitor.ts` 同时检查 relayer health/metrics 与 RPC chain/block，返回 JSON 并在异常时 exit 1。
 - [x] 文档化 gas/value 上限、relayer 资金风险、告警阈值、事故停止和用户自行广播路径。
+- [x] 在本地 relayer + fork 上运行 `scripts/monitor.ts`（M2 E2E 内验证 health/metrics/RPC 一致）。
 - [ ] 在真实测试/试点环境配置独立监控端点；本任务不部署公共环境。
 
 **Gate:** 监控脚本在本地 relayer + fork 上可运行；费用上限不依赖单笔/单日预算之外的隐含授权。
