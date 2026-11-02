@@ -4,6 +4,8 @@ import { chmod, writeFile } from "node:fs/promises";
 import {
   DEFAULT_RELEASE_LIMITS,
   buildDepositPlan,
+  buildRenewalCall,
+  readRenewalQuote,
   createProvider,
   encodeExecuteData,
   getProfile,
@@ -45,6 +47,7 @@ const COMMANDS: Record<string, string[]> = {
   "key verify-backup": ["key", "verify-backup"],
   "vault prepare": ["vault", "prepare"],
   "vault deposit": ["vault", "deposit"],
+  "vault renew": ["vault", "renew"],
   "release plan": ["release", "plan"],
   "release verify": ["release", "verify"],
   "request sign": ["request", "sign"],
@@ -72,6 +75,8 @@ export async function runCommand(args: ParsedArgs): Promise<CommandResult> {
       return { command, data: await commandVaultPrepare(args) };
     case "vault deposit":
       return { command, data: await commandVaultDeposit(args) };
+    case "vault renew":
+      return { command, data: await commandVaultRenew(args) };
     case "release plan":
       return { command, data: await commandReleasePlan(args, rest) };
     case "release verify":
@@ -189,6 +194,49 @@ async function commandVaultDeposit(args: ParsedArgs) {
     from: requireFlag(args, "from"),
   });
   return plan;
+}
+
+async function commandVaultRenew(args: ParsedArgs) {
+  const profile = getProfile(flagString(args, "profile"));
+  const rpc = rpcUrls(args)?.[0] ?? profile.runtimeRpcUrls[0]!;
+  const vault = requireFlag(args, "vault") as Hex;
+  const name = requireFlag(args, "name");
+  const months = flagString(args, "months") ?? "1";
+  const state = await readVaultState({ vault, profile: profile.id, rpcUrls: [rpc] });
+  const provider = createProvider(rpc, profile.chainId);
+  const block = await provider.client.getBlock({ blockTag: "latest" });
+  const quote = await readRenewalQuote({
+    provider,
+    binding: profile.domainBinding,
+    name,
+    container: state.container,
+    months,
+    blockNumber: block.number,
+  });
+  const call = buildRenewalCall({
+    binding: profile.domainBinding,
+    name,
+    container: state.container,
+    months: quote.months,
+    total: quote.total,
+  });
+  const bundle = await readKey(args, "key");
+  const expiry = flagString(args, "expiry") ?? (block.timestamp + 300n).toString();
+  const nonce = flagString(args, "nonce") ?? state.nonce;
+  const request = createRequestV1({
+    chainId: profile.chainId.toString(),
+    guardian: vault,
+    operation: 0,
+    calls: [call],
+    nonce,
+    expiry,
+  });
+  const { digest } = encodeRequest(request);
+  return await finishSigned(args, { request, digest, signature: await signDigest({ digest, bundle }) }, {
+    operation: "EXECUTE (renew)",
+    quote,
+    digest,
+  });
 }
 
 async function commandReleasePlan(args: ParsedArgs, rest: string[]) {
@@ -446,6 +494,7 @@ export function helpText(): string {
   key rotate --vault 0x.. --key <old.age> --new-key <new.age> [--nonce N] [--expiry N] [--out signed.json]
   vault prepare --name <site> --verifier 0x.. --nft 0x.. --token-id N --container 0x.. --deployer 0x.. --key <bundle.age> [--artifact path] [--rpc URL]
   vault deposit --vault 0x.. --nft 0x.. --token-id N --from 0x.. --key <bundle.age> [--json]
+  vault renew --vault 0x.. --name <site> --months N --key <bundle.age> [--out signed.json]
   vault exit --vault 0x.. --to 0x.. --key <bundle.age> [--out signed.json]
   operator revoke --vault 0x.. --operator 0x.. --key <bundle.age> [--out signed.json]
   release plan <dir> --site <name> --vault 0x.. [--fallback path] [--out plan.json] [--no-prune] [--rpc URL]...
