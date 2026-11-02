@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Q-Tape — 发布权限保护状态</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0b0e14;
+        --panel: #131824;
+        --panel-2: #1a2130;
+        --text: #e7ecf3;
+        --muted: #93a0b4;
+        --line: #273145;
+        --accent: #7ee2b8;
+        --warn: #f0c674;
+        --danger: #f47f8f;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; font: 15px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); }
+      header { padding: 28px 24px 18px; border-bottom: 1px solid var(--line); }
+      h1 { margin: 0 0 6px; font-size: 24px; letter-spacing: -0.02em; }
+      header p { margin: 0; color: var(--muted); max-width: 760px; }
+      main { max-width: 1040px; margin: 0 auto; padding: 24px; }
+      .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+      .tabs button { background: var(--panel); color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; cursor: pointer; }
+      .tabs button[aria-selected="true"] { color: #07110d; background: var(--accent); border-color: var(--accent); }
+      section { display: none; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+      section.active { display: block; }
+      label { display: block; margin: 12px 0 5px; color: var(--muted); font-size: 13px; }
+      input, textarea { width: 100%; background: var(--panel-2); color: var(--text); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font: inherit; }
+      textarea { min-height: 110px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+      button.primary { margin-top: 14px; background: var(--accent); color: #07110d; border: 0; border-radius: 9px; padding: 10px 16px; font-weight: 650; cursor: pointer; }
+      button.ghost { margin-top: 14px; margin-left: 8px; background: transparent; color: var(--text); border: 1px solid var(--line); border-radius: 9px; padding: 10px 16px; cursor: pointer; }
+      .result { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 14px; }
+      .status { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; }
+      .status.ok { background: rgba(126,226,184,0.14); color: var(--accent); }
+      .status.warn { background: rgba(240,198,116,0.14); color: var(--warn); }
+      .status.danger { background: rgba(244,127,143,0.14); color: var(--danger); }
+      .status.muted { background: rgba(147,160,180,0.14); color: var(--muted); }
+      table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+      td { padding: 6px 0; border-bottom: 1px solid var(--line); vertical-align: top; word-break: break-all; }
+      td:first-child { color: var(--muted); width: 160px; }
+      .warnings { color: var(--warn); }
+      .small { color: var(--muted); font-size: 12px; margin-top: 10px; }
+      code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+      .error { color: var(--danger); }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Q-Tape</h1>
+      <p>Post-quantum publishing authority for TapeOut DeWEB sites. 只读状态与普通钱包持有者操作；浏览器不导入、不接触 Falcon 私钥。</p>
+    </header>
+    <main>
+      <div class="tabs" role="tablist">
+        <button role="tab" data-tab="status" aria-selected="true">保护状态</button>
+        <button role="tab" data-tab="deploy" aria-selected="false">部署 Vault</button>
+        <button role="tab" data-tab="deposit" aria-selected="false">迁入 NFT</button>
+        <button role="tab" data-tab="verify" aria-selected="false">发布核验</button>
+      </div>
+
+      <section id="tab-status" class="active">
+        <label for="site">站点名（TAP-10 名称，如 10.2.4.tape）</label>
+        <input id="site" placeholder="10.2.4.tape" />
+        <label for="block">观察区块（可选，只读固定区块）</label>
+        <input id="block" placeholder="74818827" />
+        <button class="primary" id="inspect">读取链上状态</button>
+        <div class="result" id="status-result"></div>
+      </section>
+
+      <section id="tab-deploy">
+        <p class="small">先在本地运行 <code>qtape vault prepare ... --json</code>，把输出中的 <code>data.transaction</code> 粘贴到下面。浏览器只负责用普通钱包提交；Falcon KeyProof 在本地 signer 生成。</p>
+        <label for="deploy-tx">vault prepare 的 transaction JSON</label>
+        <textarea id="deploy-tx" placeholder='{"chainId":196,"to":null,"data":"0x...","value":"0","expectedAddress":"0x..."}'></textarea>
+        <button class="primary" id="deploy">连接钱包并部署</button>
+        <div class="result" id="deploy-result"></div>
+      </section>
+
+      <section id="tab-deposit">
+        <label for="deposit-vault">Vault 地址</label>
+        <input id="deposit-vault" placeholder="0x..." />
+        <label for="deposit-nft">Circuit NFT 合约</label>
+        <input id="deposit-nft" placeholder="0x..." />
+        <label for="deposit-token">tokenId</label>
+        <input id="deposit-token" placeholder="10" />
+        <button class="primary" id="deposit">连接钱包并迁入</button>
+        <div class="result" id="deposit-result"></div>
+      </section>
+
+      <section id="tab-verify">
+        <p class="small">粘贴 <code>qtape release plan</code> 生成的 plan JSON。核验会要求两家独立 RPC 在同一区块读回文件长度、字节 SHA-256 与 manifest。</p>
+        <label for="plan">ReleasePlan JSON</label>
+        <textarea id="plan" placeholder='{"schema":"qtape.releaseplan.v1",...}'></textarea>
+        <button class="primary" id="verify">核验发布</button>
+        <div class="result" id="verify-result"></div>
+      </section>
+    </main>
+    <script type="module" src="/assets/client.js"></script>
+  </body>
+</html>
