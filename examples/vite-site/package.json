@@ -1,0 +1,9 @@
+{
+  "name": "@qtape/vite-fixture-site",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build"
+  }
+}

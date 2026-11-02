@@ -1,0 +1,16 @@
+{
+  "name": "@qtape/adapter-vite",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "dependencies": {
+    "@qtape/client": "workspace:*",
+    "@qtape/protocol": "workspace:*",
+    "@qtape/schema": "workspace:*"
+  },
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  }
+}
