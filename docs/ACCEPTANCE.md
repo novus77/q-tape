@@ -13,7 +13,8 @@
 | 真实 Falcon signer/age 备份 | `cd packages/signer && bun test` | 22/22 通过（真实 PQClean 进程、真实 age passphrase 文件、错误口令/损坏/错算法拒绝） |
 | Schema/Protocol 固定向量 | `cd packages/schema && bun test`; `cd packages/protocol && bun test` | 10/10、13/13 通过；向量由 Foundry `cast` 独立生成 |
 | Client 规划单元测试 | `cd packages/client && bun test` | 7/7 通过（fork 用例默认跳过；显式 fork 环境可运行） |
-| CLI 独立闭环 | `bun run scripts/mvp-e2e.ts` | 通过：备份失败阻断、恢复演练、真实 verifier 部署、预测地址部署、NFT 迁入、`PROTECTED`、计划/签名/提交/同区块双 RPC 回读 `VERIFIED`、换钥、退出 |
+| CLI 独立闭环 | `bun run scripts/mvp-e2e.ts` | 通过：备份失败阻断、恢复演练、真实 verifier 部署、预测地址部署、NFT 迁入、`PROTECTED`、计划/签名/提交/relayer 换钥、同区块双 RPC 回读 `VERIFIED`、operator revoke、退出 |
+| 干净 checkout | `git clone` 后 `bun install --frozen-lockfile && bun run bootstrap && bun run mvp:e2e` | 通过；使用全新生成的测试密钥，无未提交文件依赖 |
 | relayer HTTP/幂等 | `cd apps/relayer && bun test` | 5/5 通过（重复 digest、篡改、过期、nonce 冲突、模拟失败、重启恢复） |
 | Web 视图模型 | `cd apps/web && bun test` | 4/4 通过（保护状态、部署交易校验、核验状态） |
 
