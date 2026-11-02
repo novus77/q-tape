@@ -33,18 +33,23 @@ export interface RelayChain {
 
 export interface ViemRelayChainOptions extends RelayPolicy {
   rpcUrl: string;
+  secondaryRpcUrl?: string;
   chainId: number;
   privateKey: Hex;
 }
 
 export class ViemRelayChain implements RelayChain {
   private readonly provider;
+  private readonly secondaryProvider;
   private readonly wallet: WalletClient;
   private readonly policy: RelayPolicy;
   private readonly expectedChainId: number;
 
   constructor(options: ViemRelayChainOptions) {
     this.provider = createProvider(options.rpcUrl, options.chainId);
+    this.secondaryProvider = options.secondaryRpcUrl
+      ? createProvider(options.secondaryRpcUrl, options.chainId)
+      : null;
     this.expectedChainId = options.chainId;
     this.policy = options;
     const account = privateKeyToAccount(options.privateKey);
@@ -53,6 +58,21 @@ export class ViemRelayChain implements RelayChain {
 
   chainId(): number {
     return this.expectedChainId;
+  }
+
+  private async agreeOnBlock(): Promise<bigint> {
+    const primaryHead = await this.provider.client.getBlockNumber();
+    if (!this.secondaryProvider) return primaryHead;
+    const secondaryHead = await this.secondaryProvider.client.getBlockNumber();
+    const blockNumber = primaryHead < secondaryHead ? primaryHead : secondaryHead;
+    const [primaryBlock, secondaryBlock] = await Promise.all([
+      this.provider.client.getBlock({ blockNumber }),
+      this.secondaryProvider.client.getBlock({ blockNumber }),
+    ]);
+    if (primaryBlock.hash !== secondaryBlock.hash) {
+      throw new RelayError("RPC_DISAGREEMENT", `relayer RPC operators disagree at block ${blockNumber}`, 503);
+    }
+    return blockNumber;
   }
 
   async health(): Promise<{ blockNumber: string }> {
@@ -68,16 +88,27 @@ export class ViemRelayChain implements RelayChain {
     if (this.policy.allowedGuardians && !this.policy.allowedGuardians.map((value) => value.toLowerCase()).includes(request.guardian.toLowerCase())) {
       throw new RelayError("UNSUPPORTED_PROFILE", "guardian is not in the relayer allowlist", 422);
     }
-    const code = await this.provider.client.getCode({ address: request.guardian });
-    if (!code || code === "0x") throw new RelayError("INVALID_REQUEST", "guardian has no code", 400);
-    const [nonce, latest] = await Promise.all([
-      this.provider.client.readContract({ address: request.guardian, abi: guardianAbi, functionName: "nonce" }),
-      this.provider.client.getBlock({ blockTag: "latest" }),
+    const blockNumber = await this.agreeOnBlock();
+    const [code, nonce, block] = await Promise.all([
+      this.provider.client.getCode({ address: request.guardian, blockNumber }),
+      this.provider.client.readContract({ address: request.guardian, abi: guardianAbi, functionName: "nonce", blockNumber }),
+      this.provider.client.getBlock({ blockNumber }),
     ]);
+    if (!code || code === "0x") throw new RelayError("INVALID_REQUEST", "guardian has no code", 400);
+    if (this.secondaryProvider) {
+      const [secondaryCode, secondaryNonce, secondaryBlock] = await Promise.all([
+        this.secondaryProvider.client.getCode({ address: request.guardian, blockNumber }),
+        this.secondaryProvider.client.readContract({ address: request.guardian, abi: guardianAbi, functionName: "nonce", blockNumber }),
+        this.secondaryProvider.client.getBlock({ blockNumber }),
+      ]);
+      if (code !== secondaryCode || nonce !== secondaryNonce || block.hash !== secondaryBlock.hash) {
+        throw new RelayError("RPC_DISAGREEMENT", `relayer RPC operators disagree at block ${blockNumber}`, 503);
+      }
+    }
     if (nonce !== BigInt(request.nonce)) {
       throw new RelayError("NONCE_CONFLICT", `request nonce ${request.nonce} does not match on-chain nonce ${nonce}`, 409);
     }
-    if (latest.timestamp > BigInt(request.expiry)) {
+    if (block.timestamp > BigInt(request.expiry)) {
       throw new RelayError("EXPIRED", "request expiry has passed", 422);
     }
     const value = totalCallValue(signed);

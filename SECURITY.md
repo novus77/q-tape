@@ -6,6 +6,8 @@ Q-Tape now contains a locally verified MVP (formal Vault contracts, schema/proto
 
 The pinned Falcon Solidity dependency implements Falcon round-3 formats and is unaudited. Successful integration tests do not certify its cryptographic implementation or final FN-DSA compatibility.
 
+M2 internal review preparation and threat model: [docs/SECURITY-REVIEW-M2.md](docs/SECURITY-REVIEW-M2.md) and [docs/THREAT-MODEL.md](docs/THREAT-MODEL.md). These are not independent audits and do not satisfy the external review gate.
+
 ## Scope of current evidence
 
 The evidence concerns one X Layer snapshot, one circuit/Container and explicit authorization cases. It does not prove that every legacy authorization is cleared or constrain future changes to external proxy contracts.

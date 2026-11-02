@@ -42,6 +42,9 @@ qtape vault prepare \
 # 4. 备份演练通过后生成 NFT 迁入交易；由普通钱包确认
 qtape vault deposit --vault 0xVault --nft 0x... --token-id 10 --from 0xYourWallet --key ~/.qtape/old.age
 
+# 4b. 续期：读取当前链上 monthlyFee，展示并签名精确金额
+qtape vault renew --vault 0xVault --name 10.2.4.tape --months 1 --key ~/.qtape/old.age --out renew.json
+
 # 5. 固定产物、比较差异、生成有序调用与批次
 qtape release plan ./dist --site 10.2.4.tape --vault 0xVault \
   --rpc https://rpc.xlayer.tech --rpc https://xlayer.drpc.org --out plan.json
@@ -71,6 +74,7 @@ qtape request submit exit.json --relayer http://127.0.0.1:8787
 - 多批次使用链上当前 nonce 逐个签；`request sign --batch N` 使用 `plan.nonce + N`，不要跳过已经提交的批次。
 - `release plan` 默认镜像整站（会删除远端多余文件）；只新增/更新时加 `--no-prune`。
 - 空文件、多块文件、符号链接与路径逃逸在规划阶段拒绝；单文件默认上限 1 MiB、整站 5 MiB、每文件 350 块。
+- `vault renew` 读取当前 `monthlyFee()`，月份范围 1–120；签名后费用变化会模拟失败并要求重新报价，不会静默多扣。
 - `--wallet-key-file` 仅用于本地 fork 自动化；生产用户应使用外部普通钱包提交 `request submit --json` 输出的未签名交易。
 - Falcon 实验签名域与正式域相互拒绝；不要导入实验签名。
 - 未完成：浏览器 Falcon 签名、非零续费场景、完整历史权限枚举、安全审计、主网真实资产迁移。

@@ -2,7 +2,7 @@ name: ci
 
 on:
   push:
-    branches: [dev, mvp-m1-build]
+    branches: [dev, mvp-m1-build, m2-pilot]
   pull_request:
     branches: [dev]
 
@@ -48,3 +48,26 @@ jobs:
       - run: bun run verify:summary
       - run: (cd contracts && forge test --fork-url http://127.0.0.1:18545)
       - run: bash scripts/test-fork.sh
+
+  m2:
+    runs-on: ubuntu-latest
+    needs: static
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.10
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: 1.7.1
+      - run: bun install --frozen-lockfile
+      - run: bun run bootstrap
+      - name: Start fixed X Layer fork
+        run: |
+          anvil --fork-url https://rpc.xlayer.tech --fork-block-number 74818827 --chain-id 196 --host 127.0.0.1 --port 18545 --silent &
+          for i in $(seq 1 30); do
+            if cast chain-id --rpc-url http://127.0.0.1:18545 2>/dev/null | grep -q '^196$'; then exit 0; fi
+            sleep 2
+          done
+          exit 1
+      - run: bun run test:m2
