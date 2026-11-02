@@ -29,8 +29,9 @@
     "verify:environment": "cd experiments/guardian-fork && bun tools/capture_environment.mjs",
     "verify:e2e": "cd experiments/guardian-fork && bun tools/e2e_transactions.mjs",
     "verify:summary": "cd experiments/guardian-fork && bun tools/summarize_results.mjs",
-    "mvp:e2e": "bun scripts/mvp-e2e.ts",
+    "mvp:e2e": "cd contracts && forge build && cd .. && bun scripts/mvp-e2e.ts",
     "relayer:dev": "cd apps/relayer && bun run src/server.ts",
-    "web:dev": "cd apps/web && bun run src/server.ts"
+    "web:dev": "cd apps/web && bun run src/server.ts",
+    "build:contracts": "cd contracts && forge build"
   }
 }

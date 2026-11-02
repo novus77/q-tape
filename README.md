@@ -72,9 +72,10 @@ bun run verify:e2e
 bun run verify:summary
 
 # M1 正式合约
+bun run build:contracts
 (cd contracts && forge test --fork-url http://127.0.0.1:18545)
 
-# 独立 CLI 全流程（会自行创建临时 fork 代理和测试密钥）
+# 独立 CLI 全流程（会自行构建 artifact、创建临时 fork 代理和测试密钥）
 bun run mvp:e2e
 ```
 
