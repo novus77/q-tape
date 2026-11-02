@@ -7,14 +7,17 @@ echo "== format =="
 (cd contracts && forge fmt --check src test && bash -n scripts/bootstrap.sh)
 (cd packages/signer && bash -n scripts/bootstrap.sh)
 
+echo "== security review =="
+bun run security:review
+
 echo "== typecheck =="
-for package in packages/schema packages/protocol packages/signer packages/client packages/cli apps/relayer apps/web examples/publisher-adapter; do
+for package in packages/schema packages/protocol packages/signer packages/client packages/cli packages/adapter-vite apps/relayer apps/web examples/publisher-adapter; do
   echo "-- $package"
   (cd "$package" && bun run typecheck)
 done
 
 echo "== unit tests =="
-for package in packages/schema packages/protocol packages/signer packages/client packages/cli apps/relayer apps/web; do
+for package in packages/schema packages/protocol packages/signer packages/client packages/cli packages/adapter-vite apps/relayer apps/web; do
   echo "-- $package"
   (cd "$package" && bun test)
 done

@@ -2,13 +2,14 @@ import { createWalletClient, createPublicClient, defineChain, http, bytesToHex, 
 import { privateKeyToAccount } from "viem/accounts";
 import { mkdirSync, rmSync, writeFileSync, chmodSync } from "node:fs";
 import { randomBytes } from "node:crypto";
-import { resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 
 const ROOT = resolve(import.meta.dir, "..");
 const ENDPOINT = "http://127.0.0.1:18545";
 const PROXY_PORT = 18547;
 const OUT_DIR = resolve(ROOT, "experiments/guardian-fork/results/mvp-e2e");
 const SITE_DIR = resolve(OUT_DIR, "site");
+const M2 = process.env.Q_TAPE_M2 === "1";
 const PASS="e2e-passphrase-2026";
 const NEW_PASS="e2e-new-passphrase-2026";
 const NFT = "0x68f65046fDEab90d8dB376C27B5E6AE159d240cc" as Hex;
@@ -80,10 +81,25 @@ function requireOk(result: Awaited<ReturnType<typeof runCli>>, step: string): an
 
 try {
   rmSync(OUT_DIR, { recursive: true, force: true });
-  mkdirSync(resolve(SITE_DIR, "assets"), { recursive: true });
-  writeFileSync(resolve(SITE_DIR, "index.html"), "<!doctype html><title>Q-Tape e2e</title><h1>independent release</h1>\n");
-  writeFileSync(resolve(SITE_DIR, "assets/app.js"), "console.log('q-tape independent release');\n");
-  writeFileSync(resolve(SITE_DIR, "assets/style.css"), "body { color: #123; }\n");
+  if (M2) {
+    const viteBuild = Bun.spawnSync(["bun", "run", "build:vite-fixture"], { cwd: ROOT, stdout: "pipe", stderr: "pipe" });
+    if (viteBuild.exitCode !== 0) {
+      throw new Error(`vite build failed: ${new TextDecoder().decode(viteBuild.stderr)}`);
+    }
+    const { collectViteDist } = await import("../packages/adapter-vite/src/index.ts");
+    const viteFiles = collectViteDist(resolve(ROOT, "examples/vite-site/dist"));
+    for (const file of viteFiles) {
+      const target = join(SITE_DIR, file.path);
+      mkdirSync(dirname(target), { recursive: true });
+      await Bun.write(target, file.content);
+    }
+    record("vite-build-and-adapter-collected", { files: viteFiles.map((file) => file.path) });
+  } else {
+    mkdirSync(resolve(SITE_DIR, "assets"), { recursive: true });
+    writeFileSync(resolve(SITE_DIR, "index.html"), "<!doctype html><title>Q-Tape e2e</title><h1>independent release</h1>\n");
+    writeFileSync(resolve(SITE_DIR, "assets/app.js"), "console.log('q-tape independent release');\n");
+    writeFileSync(resolve(SITE_DIR, "assets/style.css"), "body { color: #123; }\n");
+  }
   const walletKeyPath = resolve(OUT_DIR, "relayer-gas.key");
   writeFileSync(walletKeyPath, relayerPrivateKey + "\n", { mode: 0o600 });
   chmodSync(walletKeyPath, 0o600);
@@ -219,6 +235,23 @@ try {
   ]), "release verify");
   if (verification.status !== "VERIFIED") throw new Error(`release verification failed: ${JSON.stringify(verification)}`);
   record("release-verified", { blockNumber: verification.blockNumber, files: verification.files.map((file: { path: string; ok: boolean }) => ({ path: file.path, ok: file.ok })) });
+
+  if (M2) {
+    const renewPath = resolve(OUT_DIR, "renew.json");
+    const renewMetadata = requireOk(await runCli([
+      "vault", "renew",
+      "--vault", vault,
+      "--name", "10.2.4.tape",
+      "--months", "1",
+      "--key", keyOld,
+      "--rpc", ENDPOINT,
+      "--out", renewPath,
+      "--json",
+    ], `${PASS}\n`), "vault renew");
+    const renewSubmission = requireOk(await runCli(["request", "submit", renewPath, "--wallet-address", deployer, "--rpc", ENDPOINT, "--json"]), "vault renew submit");
+    if (renewSubmission.status !== "confirmed") throw new Error(`vault renew not confirmed: ${JSON.stringify(renewSubmission)}`);
+    record("vault-renewed", { quote: renewMetadata.quote, transactionHash: renewSubmission.transactionHash });
+  }
 
   const revokePath = resolve(OUT_DIR, "revoke.json");
   requireOk(await runCli([

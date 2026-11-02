@@ -18,7 +18,8 @@
   },
   "devDependencies": {
     "@types/bun": "1.4.4",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "vite": "8.3.5"
   },
   "scripts": {
     "bootstrap": "bash experiments/guardian-fork/tools/bootstrap.sh && bash packages/signer/scripts/bootstrap.sh && bash contracts/scripts/bootstrap.sh",
@@ -33,6 +34,10 @@
     "mvp:e2e": "cd contracts && forge build && cd .. && bun scripts/mvp-e2e.ts",
     "relayer:dev": "cd apps/relayer && bun run src/server.ts",
     "web:dev": "cd apps/web && bun run src/server.ts",
-    "build:contracts": "cd contracts && forge build"
+    "build:contracts": "cd contracts && forge build",
+    "security:review": "bun scripts/security-review.ts",
+    "m2:e2e": "cd contracts && forge build && cd .. && bun scripts/m2-e2e.ts",
+    "test:m2": "bash scripts/test-m2.sh",
+    "build:vite-fixture": "vite build examples/vite-site --outDir dist --emptyOutDir"
   }
 }

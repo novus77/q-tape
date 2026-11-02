@@ -4,13 +4,14 @@
 
 Q-Tape 把 circuit NFT 的站点控制权交给 Falcon 密钥控制的 Vault，让独立 CLI 或第三方发布工具只能执行用户明确批准的修改。
 
-**当前状态：M1 本地 fork MVP 已实现并通过验收；未经安全审计，未部署主网，不接收真实资产。** 正式 Vault、本地 native signer、age 加密备份、Client SDK、CLI、可替换 relayer 和只读/普通钱包 Web 已存在；TapeCI、HashPort 等第三方平台集成尚未完成，也不对外声称已集成。
+**当前状态：M1 本地 fork MVP 已实现并通过验收；M2 内部候选（安全审查准备、非零费用 fixture、Vite 适配、浏览器组件测试）已完成，但独立外部审查仍未完成。未经安全审计，未部署主网，不接收真实资产。** 正式 Vault、本地 native signer、age 加密备份、Client SDK、CLI、可替换 relayer 和只读/普通钱包 Web 已存在；TapeCI、HashPort 等第三方平台集成尚未完成，也不对外声称已集成。
 
 ## 从哪里开始
 
 - [Spec 开发文档 v0.1](docs/SPEC-v0.1.md)：产品范围、架构、授权协议、接口、使用流程、验收标准。
 - [开发计划](docs/DEVELOPMENT-PLAN.md)：从已验证 PoC 到 MVP 的实施顺序与当前状态。
 - [M1 验收记录](docs/ACCEPTANCE.md)：实际命令、测试结果、覆盖映射与未完成项。
+- [M2 计划](docs/DEVELOPMENT-PLAN-M2.md)、[M2 验收](docs/ACCEPTANCE-M2.md)、[M2 安全审查记录](docs/SECURITY-REVIEW-M2.md)、[Pilot 手册](docs/PILOT.md)。
 - [发布说明](docs/RELEASE-NOTES.md)：0.1.0-m1 新增模块与已知限制。
 - [CLI 使用说明](docs/CLI.md)、[集成说明](docs/INTEGRATION.md)、[relayer](docs/RELAYER.md)、[密钥与备份](docs/KEYS.md)。
 - [实际验证报告](docs/VERIFICATION.md)：21 项 Foundry 测试与 5 个独立应用端本地交易行为用例；[独立仓库重跑证据](evidence/standalone-2026-11-02/README.md)。

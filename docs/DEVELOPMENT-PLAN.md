@@ -23,6 +23,8 @@
 
 M1.1–M1.7 的代码与本地验收已落地，详细命令和真实结果见 [ACCEPTANCE.md](ACCEPTANCE.md)。仍未完成并保留为未勾选的条目：非零续费费用路径、真实浏览器 E2E、独立外部安全审查、从提交后的干净 checkout 重跑。当前结论是“本地 fork MVP 已实现并测试”，不是主网部署或安全审计。
 
+M2 候选开发见 [DEVELOPMENT-PLAN-M2.md](DEVELOPMENT-PLAN-M2.md)：M2.1–M2.4 内部实现与测试完成，M2.5 验收/试用材料完成；**外部独立安全审查与真实资产授权仍未完成**，因此不能进入真实资产试点。
+
 ## Review focus
 
 1. 同一请求由 Solidity/TypeScript/native signer 独立编码，拒绝字符串/字节、整数精度与域歧义。
