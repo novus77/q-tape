@@ -8,13 +8,13 @@ echo "== format =="
 (cd packages/signer && bash -n scripts/bootstrap.sh)
 
 echo "== typecheck =="
-for package in packages/schema packages/protocol packages/signer packages/client packages/cli apps/relayer apps/web; do
+for package in packages/schema packages/protocol packages/signer packages/client packages/cli apps/relayer apps/web examples/publisher-adapter; do
   echo "-- $package"
   (cd "$package" && bun run typecheck)
 done
 
 echo "== unit tests =="
-for package in packages/schema packages/protocol packages/signer packages/client packages/cli apps/relayer apps/web; do
+for package in packages/schema packages/protocol packages/signer packages/client packages/cli apps/relayer apps/web examples/publisher-adapter; do
   echo "-- $package"
   (cd "$package" && bun test)
 done

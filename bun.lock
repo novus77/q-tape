@@ -33,6 +33,16 @@
         "viem": "2.57.7",
       },
     },
+    "examples/publisher-adapter": {
+      "name": "@qtape/publisher-adapter-example",
+      "version": "0.1.0",
+      "dependencies": {
+        "@qtape/client": "workspace:*",
+        "@qtape/protocol": "workspace:*",
+        "@qtape/schema": "workspace:*",
+        "@qtape/signer": "workspace:*",
+      },
+    },
     "packages/cli": {
       "name": "@qtape/cli",
       "version": "0.1.0",
@@ -94,6 +104,8 @@
     "@qtape/client": ["@qtape/client@workspace:packages/client"],
 
     "@qtape/protocol": ["@qtape/protocol@workspace:packages/protocol"],
+
+    "@qtape/publisher-adapter-example": ["@qtape/publisher-adapter-example@workspace:examples/publisher-adapter"],
 
     "@qtape/relayer": ["@qtape/relayer@workspace:apps/relayer"],
 
