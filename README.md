@@ -41,7 +41,7 @@ flowchart LR
 固定 X Layer fork 区块 **74818827**，链 ID 196：
 
 - 实验回归 21/21 Foundry 测试通过；8 笔本地交易覆盖 5 个行为用例，公网广播 0。
-- 正式 Guardian 合约 48/48 Foundry 测试通过，覆盖真实 Falcon 验签、字段篡改、重放、过期、跨链/跨 Vault、旧 owner/operator/NFT approval、换钥、批次回滚。
+- 正式 Guardian 合约 51/51 Foundry 测试通过，覆盖真实 Falcon 验签、字段篡改、重放、过期、跨链/跨 Vault、旧 owner/operator/NFT approval、换钥、批次回滚。
 - native signer/age 备份 22/22 测试通过（真实 PQClean 进程，不是恒真 verifier）。
 - 独立 CLI 闭环通过：备份失败阻断 → 恢复演练 → 部署 → NFT 迁入 → `PROTECTED` → 发布签名/提交 → 同区块双 RPC 回读 `VERIFIED` → 换钥 → 退出。
 - 发布样本使用约 3.29M gas，NFT 转出约 3.04M gas；样本测量，不构成性能承诺。
