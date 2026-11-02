@@ -1,0 +1,225 @@
+{
+  "observedAt": "2026-11-02T07:41:39.790Z",
+  "fixedBlock": "74818827",
+  "fixedBlockHash": "0xb8433ae3f968b1e3326113a94a549577c836d45556320e861ec6667a9a3742c2",
+  "publicChainTransactionsBroadcast": 0,
+  "total": 21,
+  "passed": 21,
+  "failed": 0,
+  "skipped": 0,
+  "groups": [
+    {
+      "suite": "test/GuardianFork.t.sol:GuardianForkTest",
+      "cases": 15
+    },
+    {
+      "suite": "test/ProtocolFork.t.sol:ProtocolForkTest",
+      "cases": 6
+    }
+  ],
+  "independentApplicationTransactions": {
+    "finalRunTransactions": 8,
+    "behaviorCases": 5,
+    "perGuardianGasLimit": "8000000",
+    "snapshotRestored": true,
+    "evidence": "e2e-transactions.json"
+  },
+  "tests": [
+    {
+      "suite": "test/GuardianFork.t.sol:GuardianForkTest",
+      "name": "test_directNftTheftAndUnsignedGuardianTransferRejected()",
+      "status": "Success",
+      "reason": null,
+      "gas": 152868,
+      "logs": []
+    },
+    {
+      "suite": "test/GuardianFork.t.sol:GuardianForkTest",
+      "name": "test_expiredRequestRejected()",
+      "status": "Success",
+      "reason": null,
+      "gas": 21001,
+      "logs": []
+    },
+    {
+      "suite": "test/GuardianFork.t.sol:GuardianForkTest",
+      "name": "test_failedBatchRollsBackWritesAndNonce()",
+      "status": "Success",
+      "reason": null,
+      "gas": 6649750,
+      "logs": []
+    },
+    {
+      "suite": "test/GuardianFork.t.sol:GuardianForkTest",
+      "name": "test_keyRotationDisablesOldKeyAndAcceptsNewKey()",
+      "status": "Success",
+      "reason": null,
+      "gas": 9444043,
+      "logs": []
+    },
+    {
+      "suite": "test/GuardianFork.t.sol:GuardianForkTest",
+      "name": "test_missingAndMutatedSignatureRejected()",
+      "status": "Success",
+      "reason": null,
+      "gas": 553009,
+      "logs": []
+    },
+    {
+      "suite": "test/GuardianFork.t.sol:GuardianForkTest",
+      "name": "test_modifiedTargetValueDataOperationAndExpiryRejected()",
+      "status": "Success",
+      "reason": null,
+      "gas": 15072271,
+      "logs": []
+    },
+    {
+      "suite": "test/GuardianFork.t.sol:GuardianForkTest",
+      "name": "test_referenceFalconSignatureInteroperatesWithSolidity()",
+      "status": "Success",
+      "reason": null,
+      "gas": 5936643,
+      "logs": [
+        "FalconPublicKeyBytes: 897",
+        "FalconSignatureBytes: 653"
+      ]
+    },
+    {
+      "suite": "test/GuardianFork.t.sol:GuardianForkTest",
+      "name": "test_reorderingSignedBatchRejected()",
+      "status": "Success",
+      "reason": null,
+      "gas": 2976949,
+      "logs": []
+    },
+    {
+      "suite": "test/GuardianFork.t.sol:GuardianForkTest",
+      "name": "test_signatureCannotCrossChain()",
+      "status": "Success",
+      "reason": null,
+      "gas": 2972278,
+      "logs": []
+    },
+    {
+      "suite": "test/GuardianFork.t.sol:GuardianForkTest",
+      "name": "test_signedRequestStillCannotGrantOperatorsApproveNftOrWriteAnotherContainer()",
+      "status": "Success",
+      "reason": null,
+      "gas": 9091850,
+      "logs": []
+    },
+    {
+      "suite": "test/GuardianFork.t.sol:GuardianForkTest",
+      "name": "test_successfulRequestCannotReplayAndRelayerCanChange()",
+      "status": "Success",
+      "reason": null,
+      "gas": 3367743,
+      "logs": []
+    },
+    {
+      "suite": "test/GuardianFork.t.sol:GuardianForkTest",
+      "name": "test_validFalconCanPublishAppendDeleteAndSetFallback()",
+      "status": "Success",
+      "reason": null,
+      "gas": 9172465,
+      "logs": []
+    },
+    {
+      "suite": "test/GuardianFork.t.sol:GuardianForkTest",
+      "name": "test_validFalconCanRenewAndRevokeLegacyOperator()",
+      "status": "Success",
+      "reason": null,
+      "gas": 6149160,
+      "logs": []
+    },
+    {
+      "suite": "test/GuardianFork.t.sol:GuardianForkTest",
+      "name": "test_validFalconTransferAndCrossGuardianReplay()",
+      "status": "Success",
+      "reason": null,
+      "gas": 11090524,
+      "logs": []
+    },
+    {
+      "suite": "test/GuardianFork.t.sol:GuardianForkTest",
+      "name": "test_wrongFalconKeyRejected()",
+      "status": "Success",
+      "reason": null,
+      "gas": 3059890,
+      "logs": []
+    },
+    {
+      "suite": "test/ProtocolFork.t.sol:ProtocolForkTest",
+      "name": "test_contractHolderCanPublishAppendSetFallbackAndDelete()",
+      "status": "Success",
+      "reason": null,
+      "gas": 399263,
+      "logs": []
+    },
+    {
+      "suite": "test/ProtocolFork.t.sol:ProtocolForkTest",
+      "name": "test_contractHolderCanRenewActivation()",
+      "status": "Success",
+      "reason": null,
+      "gas": 179220,
+      "logs": [
+        "monthlyFeeWei: 0",
+        "expiryBefore: 1795513090",
+        "expiryAfter: 1798105090"
+      ]
+    },
+    {
+      "suite": "test/ProtocolFork.t.sol:ProtocolForkTest",
+      "name": "test_oldNftApprovalsCannotMoveGuardianNft()",
+      "status": "Success",
+      "reason": null,
+      "gas": 137026,
+      "logs": []
+    },
+    {
+      "suite": "test/ProtocolFork.t.sol:ProtocolForkTest",
+      "name": "test_oldOwnerLosesEveryRegistryWriteAndRenewal()",
+      "status": "Success",
+      "reason": null,
+      "gas": 443705,
+      "logs": [
+        "oldOwnerRevert: 0x30cd7471",
+        "oldOwnerRevert: 0x30cd7471",
+        "oldOwnerRevert: 0x30cd7471",
+        "oldOwnerRevert: 0x30cd7471",
+        "oldOwnerRevert: 0x30cd7471"
+      ]
+    },
+    {
+      "suite": "test/ProtocolFork.t.sol:ProtocolForkTest",
+      "name": "test_preTransferRegistryOperatorMustLoseWriteAccess()",
+      "status": "Success",
+      "reason": null,
+      "gas": 476627,
+      "logs": [
+        "oldOperatorWriteAfterTransfer: 0",
+        "oldOperatorRevert: 0x30cd7471",
+        "oldOperatorWriteAfterTransfer: 0",
+        "oldOperatorRevert: 0x30cd7471",
+        "oldOperatorWriteAfterTransfer: 0",
+        "oldOperatorRevert: 0x30cd7471",
+        "oldOperatorWriteAfterTransfer: 0",
+        "oldOperatorRevert: 0x30cd7471",
+        "oldOperatorWriteAfterTransfer: 0",
+        "oldOperatorRevert: 0x30cd7471"
+      ]
+    },
+    {
+      "suite": "test/ProtocolFork.t.sol:ProtocolForkTest",
+      "name": "test_registryOperatorCannotCreateAnotherOperator()",
+      "status": "Success",
+      "reason": null,
+      "gas": 339434,
+      "logs": [
+        "operatorCanDelegate: 0",
+        "operatorDelegationRevert: 0x30cd7471"
+      ]
+    }
+  ],
+  "interpretation": "Measured deployed-protocol compatibility and laboratory Guardian authorization at the fixed fork block; not an audit or a future-upgrade guarantee."
+}

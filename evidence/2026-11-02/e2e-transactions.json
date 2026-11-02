@@ -1,0 +1,77 @@
+{
+  "observedAt": "2026-11-02T06:06:40.495Z",
+  "localAnvilOnly": true,
+  "endpoint": "http://127.0.0.1:18545",
+  "publicChainTransactionsBroadcast": 0,
+  "applicationEncoder": "viem JavaScript ABI encoding",
+  "perGuardianTransactionGasLimit": "8000000",
+  "localTransactionsBroadcast": 8,
+  "byteReadBackMatches": true,
+  "receipts": [
+    {
+      "name": "deploy-real-verifier",
+      "transactionHash": "0xdb642763ece71252fff5f10c39c6c6320924497e581437cea74c352ed0eb1d71",
+      "status": "success",
+      "gasUsed": "2706484",
+      "blockNumber": "74818828",
+      "contractAddress": "0xc5a5c42992decbae36851359345fe25997f5c42d"
+    },
+    {
+      "name": "deploy-laboratory-guardian",
+      "transactionHash": "0x87dbf4f98b0d6366e7c2f9379993f31669987d309f52fdfb93a8acf818402884",
+      "status": "success",
+      "gasUsed": "1834419",
+      "blockNumber": "74818829",
+      "contractAddress": "0x67d269191c92caf3cd7723f116c85e6e9bf55933"
+    },
+    {
+      "name": "move-nft-in-local-fork",
+      "transactionHash": "0xd9301a856d762a0bf990964a9f25d23f7838d214a9409aefef3673412e283db0",
+      "status": "success",
+      "gasUsed": "67039",
+      "blockNumber": "74818830",
+      "contractAddress": null
+    },
+    {
+      "name": "tampered-publication-rejected",
+      "transactionHash": "0xe0a735bd4085a84bf56641dac18c8985d10a52a472840335cf9b5108d275827d",
+      "status": "reverted",
+      "gasUsed": "3082915",
+      "blockNumber": "74818831",
+      "contractAddress": null
+    },
+    {
+      "name": "valid-falcon-publication",
+      "transactionHash": "0x6854b37125e219dbf1f5dabee952bf82fef64a3a5df19c0ab7bb38a6ccbe813f",
+      "status": "success",
+      "gasUsed": "3386592",
+      "blockNumber": "74818832",
+      "contractAddress": null
+    },
+    {
+      "name": "successful-request-replay-rejected",
+      "transactionHash": "0xc1a8080ef470881f688a6f45b8d71cd1e3ef8c916407f4ff56880c3523d1db57",
+      "status": "reverted",
+      "gasUsed": "60750",
+      "blockNumber": "74818833",
+      "contractAddress": null
+    },
+    {
+      "name": "old-owner-direct-nft-transfer-rejected",
+      "transactionHash": "0x0739acefe710344d8536c9cb891d51851bd453a269af1d630ab5efa4cd3485da",
+      "status": "reverted",
+      "gasUsed": "37276",
+      "blockNumber": "74818834",
+      "contractAddress": null
+    },
+    {
+      "name": "valid-falcon-nft-transfer",
+      "transactionHash": "0x1488252eaec4eaab89a008934eecacba6a1dd671cab7c4e4975aae5c010b83e6",
+      "status": "success",
+      "gasUsed": "3132166",
+      "blockNumber": "74818835",
+      "contractAddress": null
+    }
+  ],
+  "snapshotRestored": true
+}

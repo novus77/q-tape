@@ -1,0 +1,97 @@
+{
+  "observedAt": "2026-11-02T07:40:49.092Z",
+  "experiment": "local-fork-only",
+  "publicChainTransactionsBroadcast": 0,
+  "chainId": 196,
+  "blockNumber": "74818827",
+  "blockHash": "0xb8433ae3f968b1e3326113a94a549577c836d45556320e861ec6667a9a3742c2",
+  "blockTimestamp": "1793587863",
+  "localEndpoint": "http://127.0.0.1:18545",
+  "originalOwnerAtLocalFork": "0x25063c2210a0bccce3e15d250573179483275f22",
+  "contracts": [
+    {
+      "role": "siteRegistry",
+      "address": "0xd6efb7adcc9c83dc4924ad56f6a8e4e969b9adb6",
+      "codeBytes": 176,
+      "codeSha256": "abf5cf38090dfee533685e0f6f69e82905c63b3ddc28fd1cfcbb4e2c0c738b99",
+      "implementation": "0xa85c4143d1d4a77f54b8e4ecc9e6d1418afea45f",
+      "implementationCodeSha256": "4864e668d7aa1b45fae0af993d6d696faa1db15e29f51219d7b4a6704f15bf39"
+    },
+    {
+      "role": "domainBinding",
+      "address": "0x68809fd2fb343aa57d0aeb7f33defe477c9666f9",
+      "codeBytes": 176,
+      "codeSha256": "abf5cf38090dfee533685e0f6f69e82905c63b3ddc28fd1cfcbb4e2c0c738b99",
+      "implementation": "0x5ebf29b80789e548907c707530c3c7607c4347df",
+      "implementationCodeSha256": "823f8764ec99d57ce4c7beb6a17c28b3031391f150c690691c52c6a9f126ad92"
+    },
+    {
+      "role": "circuitNft",
+      "address": "0x68f65046fdeab90d8db376c27b5e6ae159d240cc",
+      "codeBytes": 295,
+      "codeSha256": "2ea683e275cbe6e51928a9bdefe80b6ff6a6a6e8535436bbe7eea02ee18306ae",
+      "implementation": null,
+      "implementationCodeSha256": null
+    },
+    {
+      "role": "container",
+      "address": "0xc0b4900262d0bc13f2c67c0fc4cf92c04e0ab814",
+      "codeBytes": 173,
+      "codeSha256": "11ee25b3ee11259a95801e868eb680c4f78150df34f5a81c42f64b4ca364bf46",
+      "implementation": null,
+      "implementationCodeSha256": null
+    }
+  ],
+  "beacons": [
+    {
+      "role": "circuitBeacon",
+      "address": "0xf70d1ed4f62cf3780157b0b421b7e2f45bd0991c",
+      "implementation": "0x977f217887e085d298cb3819cdad5a0ee35f29b2",
+      "implementationCodeSha256": "0a5259a8b5a69197cde6dce70a4446fe807b622277bdae9e79919d5d8e9828a5"
+    },
+    {
+      "role": "containerBeacon",
+      "address": "0x9b135f586f7850a3fa92210c298f732b20bc8f44",
+      "implementation": "0x6b6fda1483367e939314070a4f233c1dfd35996b",
+      "implementationCodeSha256": "412d29c807bfbda50495ebe521bed1f8dda93d2284e24d73af2a99a3cbc0c795"
+    }
+  ],
+  "sources": [
+    {
+      "path": "vendor/fndsa/FNDSA.sol",
+      "expectedGitBlob": "2c8fb027bf7613993a271f9de113b2b3c1f1cb01",
+      "actualGitBlob": "2c8fb027bf7613993a271f9de113b2b3c1f1cb01",
+      "matches": true
+    },
+    {
+      "path": "vendor/fndsa/FNDSAKeccak.sol",
+      "expectedGitBlob": "522e7a956c2869d935df6b0afdd576ca84ec0844",
+      "actualGitBlob": "522e7a956c2869d935df6b0afdd576ca84ec0844",
+      "matches": true
+    },
+    {
+      "path": "vendor/fndsa/FNDSAVerifier.sol",
+      "expectedGitBlob": "525534be0accc73f27e372c9fcda63012964a90f",
+      "actualGitBlob": "525534be0accc73f27e372c9fcda63012964a90f",
+      "matches": true
+    }
+  ],
+  "sourcePins": {
+    "fndsaSolidity": "54a14f251786686c41839c2f0cdb3655ea245ea3",
+    "verifierInterface": "6efa8e3eed3d89c301856e3fa8bb74b63eaa9f02",
+    "pqclean": "0586a824fc0d49df0b6b6e9179d8d15d06d0974f",
+    "forgeStd": "f3dae6e6ee381f25eb6a246f7da9b85c91a68219"
+  },
+  "compiler": {
+    "version": "0.8.26",
+    "optimizerRuns": 200,
+    "viaIR": true,
+    "evm": "cancun"
+  },
+  "exclusions": [
+    "production security audit",
+    "future external upgrades",
+    "nonzero renewal fee",
+    "TapeSend encrypted-message compatibility"
+  ]
+}

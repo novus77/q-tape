@@ -1,0 +1,17 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+node_modules/
+**/cache/
+**/out/
+**/broadcast/
+**/vendor/
+**/bin/
+**/results/
+**/fixtures/*.bin
+**/fixtures/*.hex
+*.age
+*.key
+*.pem
+*.log

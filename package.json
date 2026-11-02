@@ -1,0 +1,17 @@
+{
+  "name": "q-tape",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": { "bun": ">=1.3.10" },
+  "dependencies": { "viem": "2.57.7" },
+  "scripts": {
+    "bootstrap": "bash experiments/guardian-fork/tools/bootstrap.sh",
+    "check": "cd experiments/guardian-fork && forge fmt --check src test && bash -n tools/bootstrap.sh",
+    "verify:fork": "cd experiments/guardian-fork && forge test --fork-url http://127.0.0.1:18545 --json -vv > results/final-tests.json",
+    "verify:environment": "cd experiments/guardian-fork && bun tools/capture_environment.mjs",
+    "verify:e2e": "cd experiments/guardian-fork && bun tools/e2e_transactions.mjs",
+    "verify:summary": "cd experiments/guardian-fork && bun tools/summarize_results.mjs"
+  }
+}
