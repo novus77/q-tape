@@ -1,17 +1,36 @@
 {
   "name": "q-tape",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "license": "MIT",
-  "engines": { "bun": ">=1.3.10" },
-  "dependencies": { "viem": "2.57.7" },
+  "engines": {
+    "bun": ">=1.3.10"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "dependencies": {
+    "age-encryption": "0.3.1",
+    "viem": "2.57.7"
+  },
+  "devDependencies": {
+    "@types/bun": "1.4.4",
+    "typescript": "5.9.3"
+  },
   "scripts": {
-    "bootstrap": "bash experiments/guardian-fork/tools/bootstrap.sh",
-    "check": "cd experiments/guardian-fork && forge fmt --check src test && bash -n tools/bootstrap.sh",
+    "bootstrap": "bash experiments/guardian-fork/tools/bootstrap.sh && bash packages/signer/scripts/bootstrap.sh && bash contracts/scripts/bootstrap.sh",
+    "check": "bash scripts/check.sh",
+    "typecheck": "bash scripts/typecheck.sh",
+    "test:unit": "bash scripts/test-unit.sh",
+    "test:fork": "bash scripts/test-fork.sh",
     "verify:fork": "cd experiments/guardian-fork && forge test --fork-url http://127.0.0.1:18545 --json -vv > results/final-tests.json",
     "verify:environment": "cd experiments/guardian-fork && bun tools/capture_environment.mjs",
     "verify:e2e": "cd experiments/guardian-fork && bun tools/e2e_transactions.mjs",
-    "verify:summary": "cd experiments/guardian-fork && bun tools/summarize_results.mjs"
+    "verify:summary": "cd experiments/guardian-fork && bun tools/summarize_results.mjs",
+    "mvp:e2e": "bun scripts/mvp-e2e.ts",
+    "relayer:dev": "cd apps/relayer && bun run src/server.ts",
+    "web:dev": "cd apps/web && bun run src/server.ts"
   }
 }
