@@ -9,6 +9,7 @@ import type { RelayChain, SimulationSummary } from "../src/chain.js";
 class FakeChain implements RelayChain {
   submitted = 0;
   fail: RelayError | null = null;
+  submitError: Error | null = null;
   receiptStatus: "pending" | "success" | "reverted" = "success";
   chainId() { return 196; }
   async health() { return { blockNumber: "100" }; }
@@ -17,6 +18,7 @@ class FakeChain implements RelayChain {
     return { gasEstimate: 3_000_000n, value: 0n };
   }
   async submit(): Promise<{ transactionHash: `0x${string}` }> {
+    if (this.submitError) throw this.submitError;
     this.submitted += 1;
     return { transactionHash: `0x${this.submitted.toString(16).padStart(64, "0")}` };
   }
@@ -123,6 +125,21 @@ describe("relayer HTTP service", () => {
     expect(result.status).toBe(202);
     expect(result.body.status).toBe("submitted");
     expect(chain.submitted).toBe(1);
+  });
+
+  test("keeps an unknown submit result and does not blindly resend it", async () => {
+    const chain = new FakeChain();
+    chain.submitError = new Error("node timeout after broadcast");
+    const { app } = appWith(chain);
+    const request = signed();
+    const first = await post(app, request);
+    expect(first.status).toBe(500);
+    expect(first.body.status).toBe("unknown");
+    expect(first.body.error.code).toBe("INTERNAL");
+    const second = await post(app, request);
+    expect(second.status).toBe(202);
+    expect(second.body.status).toBe("unknown");
+    expect(chain.submitted).toBe(0);
   });
   test("health endpoint reports chain and block", async () => {
     const { app } = appWith(new FakeChain());
