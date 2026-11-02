@@ -83,10 +83,15 @@ export function createRelayerApp(options: RelayerAppOptions): RelayerApp {
     const digest = computed.toLowerCase();
     const existing = options.store.get(digest);
     if (existing) {
-      if (existing.status === "submitted") await reconcile();
-      return json(recordResponse(options.store.get(digest)!), 202);
+      if (existing.status === "submitted") {
+        await reconcile();
+        return json(recordResponse(options.store.get(digest)!), 202);
+      }
+      if (existing.status === "confirmed" || existing.status === "reverted" || existing.status === "expired" || existing.status === "unknown") {
+        return json(recordResponse(existing), 202);
+      }
     }
-    let record = options.store.create(digest, JSON.stringify(signed));
+    let record = existing ?? options.store.create(digest, JSON.stringify(signed));
     try {
       const simulation = await options.chain.validateAndSimulate(signed);
       record = options.store.update(digest, { status: "simulated", error: null });

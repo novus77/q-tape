@@ -112,6 +112,18 @@ describe("relayer HTTP service", () => {
     expect(body.blockNumber).toBe("101");
   });
 
+
+  test("retries a persisted simulated record after restart instead of leaving it stuck", async () => {
+    const chain = new FakeChain();
+    const { store, app } = appWith(chain);
+    const request = signed();
+    const record = store.create(request.digest, JSON.stringify(request));
+    store.update(record.digest, { status: "simulated", error: null });
+    const result = await post(app, request);
+    expect(result.status).toBe(202);
+    expect(result.body.status).toBe("submitted");
+    expect(chain.submitted).toBe(1);
+  });
   test("health endpoint reports chain and block", async () => {
     const { app } = appWith(new FakeChain());
     const response = await app.fetch(new Request("http://relay.test/health"));
