@@ -21,3 +21,6 @@ apps/web/public/build/
 
 # generated Vite fixture output
 examples/vite-site/dist/
+
+# adapter test temp directories
+packages/adapter-vite/test/.vite-*/

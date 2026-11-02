@@ -47,6 +47,10 @@
         "@qtape/signer": "workspace:*",
       },
     },
+    "examples/vite-site": {
+      "name": "@qtape/vite-fixture-site",
+      "version": "0.0.0",
+    },
     "packages/adapter-vite": {
       "name": "@qtape/adapter-vite",
       "version": "0.1.0",
@@ -129,6 +133,8 @@
     "@qtape/schema": ["@qtape/schema@workspace:packages/schema"],
 
     "@qtape/signer": ["@qtape/signer@workspace:packages/signer"],
+
+    "@qtape/vite-fixture-site": ["@qtape/vite-fixture-site@workspace:examples/vite-site"],
 
     "@qtape/web": ["@qtape/web@workspace:apps/web"],
 

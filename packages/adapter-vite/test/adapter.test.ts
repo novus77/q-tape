@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { afterEach, describe, expect, test } from "bun:test";
 import { mkdtempSync, mkdirSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { collectViteDist } from "../src/index.js";
@@ -23,6 +23,6 @@ describe("Vite dist adapter", () => {
   });
 });
 
-process.on("exit", () => {
-  for (const root of roots) rmSync(root, { recursive: true, force: true });
+afterEach(() => {
+  for (const root of roots.splice(0)) rmSync(root, { recursive: true, force: true });
 });
