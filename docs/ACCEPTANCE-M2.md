@@ -15,7 +15,7 @@ Date: 2026-11-02. Branch: `m2-pilot` (based on `mvp-m1-build`). All evidence is 
 | M2 static security guard | `bun run security:review` | `security-review: OK`; all six boundary checks pass |
 | M2 focused suites | `bun run test:m2` | contract M2 suites 11/11（3 fee + 7 fuzz + 1 invariant）, Vite adapter 2/2, Web DOM 11/11 |
 | M2 independent lifecycle | `bun run m2:e2e` | `MVP_E2E_OK`: actual `vite build` output → adapter → plan → sign → submit → same-block two-endpoint `VERIFIED` → renewal → refuel/rotate → exit |
-| Clean checkout | `git clone` + `bun install --frozen-lockfile && bun run bootstrap && bun run check && bun run m2:e2e` | pending final commit; local working-tree equivalent passed (see M2.5 gate) |
+| Clean checkout | `git clone` + `bun install --frozen-lockfile && bun run bootstrap && bun run check && bun run m2:e2e` | **通过**（2026-11-02，干净 clone，新测试密钥；M2 E2E exit 0） |
 
 ## M2.1 Security review
 

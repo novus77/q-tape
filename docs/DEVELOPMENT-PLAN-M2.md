@@ -84,7 +84,7 @@ M2.1–M2.4 的内部实现、静态检查、测试和文档已完成；M2.5 的
 - [x] 把 M2 静态检查与 DOM/费用测试加入 `bun run check`；fork/试用流程加入 `test:fork` 或独立 `m2:e2e`。
 - [x] `scripts/m2-e2e.ts` 在本地 fork 上跑：Vite `dist` → plan → 用户签署 → 提交 → 同区块回读 `VERIFIED` → 费用变化拒绝 → 恢复演练。
 - [x] 记录真实结果、缺失项、外部审查 handoff 状态；不得把 fixture 或本地交易写成主网/审计结论。
-- [ ] Gate：干净 checkout 下 `bun install --frozen-lockfile && bun run bootstrap && bun run check && bun run m2:e2e` 通过（本地 fork）。
+- [x] Gate：干净 checkout 下 `bun install --frozen-lockfile && bun run bootstrap && bun run check && bun run m2:e2e` 通过（本地 fork；2026-11-02 在 `git clone` 的干净工作树完成）。
 
 ## M2 Complete Gate
 
