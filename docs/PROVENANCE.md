@@ -10,6 +10,8 @@
 | [pq-verifier-interface](https://github.com/skalenetwork/pq-verifier-interface/tree/6efa8e3eed3d89c301856e3fa8bb74b63eaa9f02) | `6efa8e3eed3d89c301856e3fa8bb74b63eaa9f02` | verifier 接口与算法 ID；保留源文件 SPDX |
 | [PQClean](https://github.com/PQClean/PQClean/tree/0586a824fc0d49df0b6b6e9179d8d15d06d0974f) | `0586a824fc0d49df0b6b6e9179d8d15d06d0974f` | Falcon-512 clean C 参考签名；各算法/公共文件按其原许可证 |
 | [forge-std](https://github.com/foundry-rs/forge-std/tree/f3dae6e6ee381f25eb6a246f7da9b85c91a68219) | v1.17.0，`f3dae6e6ee381f25eb6a246f7da9b85c91a68219` | 独立仓库测试工具；MIT/Apache-2.0 |
+| [age-encryption](https://www.npmjs.com/package/age-encryption) | 0.3.1 | 官方 age v1 passphrase 文件实现（TypeScript/typage）；BSD-3-Clause；用于本地加密备份 |
+| viem | 2.57.7 | ABI 编码、链读取、钱包交易；MIT |
 
 第三方依赖由 bootstrap 下载到被忽略的 vendor，不属于本项目重新授权的代码。不得删去其 SPDX 或许可证。
 
@@ -26,6 +28,6 @@
 
 该快照下的 Registry 月费为零；不推断当前主网费率。当前网站存储机制已通过文件读回与文件块合约代码样本核对，文件字节使用 EVM code-as-data，不是只存哈希。
 
-## 尚未采用的产品依赖
+## MVP 依赖与限制
 
-MVP 的加密备份建议采用现成 [age 的 passphrase 模式](https://github.com/FiloSottile/age/blob/main/doc/age.1)，避免自行发明加密文件格式。具体发行版本、跨平台安装与签名进程流式解密须在 M1 验收前固定并审查；当前实验没有实现或验证此产品能力。
+MVP 的加密备份使用官方 [age 的 passphrase 模式](https://github.com/FiloSottile/age/blob/main/doc/age.1) 的 npm 实现 `age-encryption@0.3.1`，具体版本已写入 `bun.lock` 并在 `docs/KEYS.md` 记录。原生 signer 从 PQClean 固定提交构建，源码在 bootstrap 时下载到被忽略的 `vendor/`；两者均未经本项目独立审计。
