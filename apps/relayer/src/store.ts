@@ -95,6 +95,14 @@ export class RelayStore {
     return rows.map(mapRow);
   }
 
+  snapshot(): { total: number; byStatus: Record<string, number>; lastUpdatedAt: string | null } {
+    const rows = this.db.query<{ status: string; count: number }, []>("SELECT status, COUNT(*) AS count FROM requests GROUP BY status").all();
+    const byStatus = Object.fromEntries(rows.map((row) => [row.status, row.count]));
+    const total = rows.reduce((sum, row) => sum + row.count, 0);
+    const last = this.db.query<{ updated_at: string }, []>("SELECT updated_at FROM requests ORDER BY updated_at DESC LIMIT 1").get();
+    return { total, byStatus, lastUpdatedAt: last?.updated_at ?? null };
+  }
+
   close(): void {
     this.db.close();
   }

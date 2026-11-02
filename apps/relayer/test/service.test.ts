@@ -141,6 +141,18 @@ describe("relayer HTTP service", () => {
     expect(second.body.status).toBe("unknown");
     expect(chain.submitted).toBe(0);
   });
+
+  test("metrics reports request totals and latest status", async () => {
+    const { app } = appWith(new FakeChain());
+    await post(app, signed("0"));
+    await post(app, signed("1"));
+    const response = await app.fetch(new Request("http://relay.test/metrics"));
+    expect(response.status).toBe(200);
+    const body = await response.json() as { ok: boolean; requests: { total: number; byStatus: Record<string, number> } };
+    expect(body.ok).toBe(true);
+    expect(body.requests.total).toBe(2);
+    expect(body.requests.byStatus.submitted).toBe(2);
+  });
   test("health endpoint reports chain and block", async () => {
     const { app } = appWith(new FakeChain());
     const response = await app.fetch(new Request("http://relay.test/health"));
