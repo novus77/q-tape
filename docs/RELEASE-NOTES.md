@@ -15,7 +15,7 @@ Date: 2026-11-02. Not a production release, not audited, not deployed to a publi
 
 ## Verification
 
-See [ACCEPTANCE.md](ACCEPTANCE.md). Current local results: experiment 21/21, formal contracts 48/48, signer 22/22, schema 10/10, protocol 13/13, client 7 unit + 11 fork, CLI 4, relayer 5, web 4; independent CLI lifecycle on fixed X Layer fork including relayer submission and clean checkout bootstrap.
+See [ACCEPTANCE.md](ACCEPTANCE.md). Current local results: experiment 21/21, formal contracts 48/48, signer 22/22, schema 10/10, protocol 13/13, client 8 unit + 4 fork, CLI 4, relayer 6, web 4, adapter typecheck; independent CLI lifecycle on fixed X Layer fork including relayer submission and clean checkout bootstrap.
 
 ## Known limitations
 
