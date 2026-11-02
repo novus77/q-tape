@@ -14,5 +14,8 @@
     "test": "bun test",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "start": "bun run src/server.ts"
+  },
+  "devDependencies": {
+    "happy-dom": "21.0.4"
   }
 }
