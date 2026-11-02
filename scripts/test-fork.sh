@@ -17,7 +17,7 @@ echo "== formal Guardian (contracts) =="
 echo "== second read-only operator for client tests =="
 if ! curl --silent --max-time 2 -X POST http://127.0.0.1:18546 -H 'content-type: application/json' \
   --data '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}' | grep -q '"result":"0xc4"'; then
-  anvil --fork-url https://rpc.xlayer.tech --fork-block-number 74818827 --chain-id 196 --host 127.0.0.1 --port 18546 --silent &
+  anvil --fork-url https://rpc.xlayer.tech --fork-block-number 74818827 --chain-id 196 --host 127.0.0.1 --port 18546 --silent >/tmp/qtape-anvil-18546.log 2>&1 &
   sleep 3
 fi
 
