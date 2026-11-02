@@ -13,6 +13,7 @@ assets until an independent security review has been completed.
 | `src/interfaces/IProtocol.sol` | `CircuitNFT`, `Container`, `SiteRegistry` and `DomainBinding` interfaces |
 | `test/EncodingVectors.t.sol` | Hardcoded independent request/KeyProof vectors copied from `packages/protocol/test/vectors/request-vectors.json` |
 | `test/GuardianFork.t.sol` | Fork regression suite (ported GuardianLab cases plus constructor, boundary and security tests) |
+| `test/GuardianFeeFixture.t.sol` | Explicitly labeled nonzero-fee fixture; not real protocol evidence |
 | `scripts/bootstrap.sh` | Pinned dependency bootstrap, test signer build and local test-key generation |
 | `tools/falcon_signer.c` | Test-only PQClean Falcon-512 keygen/sign helper |
 
