@@ -8,11 +8,12 @@
 |---|---|---|
 | 实验回归（真实协议 + 实验 Guardian） | `bun run verify:fork` / `bun run verify:environment` / `bun run verify:e2e` / `bun run verify:summary` | 21/21 Foundry 测试通过；8 笔本地交易覆盖 5 个行为用例；快照恢复；21/21 |
 | 正式 Guardian 合约 | `cd contracts && forge test --fork-url http://127.0.0.1:18545 -vv` | 51/51 通过（6 EncodingVectors + 42 GuardianFork + 3 非零费用 fixture） |
-| 仓库离线检查 | `bun run check` | format、7 个 package typecheck、unit tests 全部通过 |
+| 仓库离线检查 | `bun run check` | format、8 个 package typecheck、unit tests 全部通过 |
 | 正式合约格式 | `cd contracts && forge fmt --check src test` | exit 0 |
 | 真实 Falcon signer/age 备份 | `cd packages/signer && bun test` | 22/22 通过（真实 PQClean 进程、真实 age passphrase 文件、错误口令/损坏/错算法拒绝） |
 | Schema/Protocol 固定向量 | `cd packages/schema && bun test`; `cd packages/protocol && bun test` | 10/10、13/13 通过；向量由 Foundry `cast` 独立生成 |
 | Client 规划单元测试 | `cd packages/client && bun test` | 10/10 通过（含 profile 与双端点 RPC 分歧；fork 用例默认跳过，`Q_TAPE_RUN_FORK_TESTS=1` 时 4/4 fork 用例通过） |
+| CLI 参数/文件收集 | `cd packages/cli && bun test` | 6/6 通过（命令解析、重复 `--rpc`、artifact 目录收集与符号链接拒绝） |
 | CLI 独立闭环 | `bun run scripts/mvp-e2e.ts` | 通过：备份失败阻断、恢复演练、真实 verifier 部署、预测地址部署、NFT 迁入、`PROTECTED`、计划/签名/提交/relayer 换钥、同区块双 RPC 回读 `VERIFIED`、operator revoke、退出 |
 | 干净 checkout | `git clone` 后 `bun install --frozen-lockfile && bun run bootstrap && bun run mvp:e2e` | 通过；使用全新生成的测试密钥，无未提交文件依赖 |
 | relayer HTTP/幂等 | `cd apps/relayer && bun test` | 7/7 通过（重复 digest、篡改、过期、nonce 冲突、模拟失败、重启恢复、simulated 重试、unknown 不重发） |
