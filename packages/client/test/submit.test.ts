@@ -8,7 +8,7 @@ describe("submission status recovery", () => {
     let called = 0;
     const result = await getSubmissionStatus(digest, {
       url: "https://relayer.example",
-      fetch: (async (input) => {
+      fetch: (async (input: RequestInfo | URL) => {
         called += 1;
         expect(String(input)).toBe(`https://relayer.example/v1/requests/${digest}`);
         return Response.json({ status: "confirmed", transactionHash: `0x${"cd".repeat(32)}`, blockNumber: "123", error: null });
