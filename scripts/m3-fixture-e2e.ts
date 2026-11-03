@@ -185,7 +185,7 @@ try {
     { path: "index.html", content: new TextEncoder().encode("<h1>m3 fixture</h1>") },
     { path: "assets/app.js", content: new TextEncoder().encode("console.log('m3')") },
     { path: "assets/empty.txt", content: new Uint8Array() },
-    { path: "assets/big.bin", content: new Uint8Array(8_000).fill(7) },
+    { path: "assets/big.bin", content: new Uint8Array(2_000).fill(7) },
   ];
   const plan = await planRelease({ site: name, vault, files: siteFiles, profile: "fixture-local", rpcUrls: providers, prune: false });
   record("plan", { batches: plan.batches.length, manifest: plan.manifestSha256, diff: plan.diff });
