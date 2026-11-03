@@ -20,7 +20,7 @@
 
 ## Task M3.2：外部安全审查闭环（阻塞）
 
-**准备产物：** `bun run review:package` 生成干净提交的审查包与 SHA-256 manifest；`docs/EXTERNAL-REVIEW-REQUEST.md` 定义范围、评审人资格、交付物和 triage 流程。
+**准备产物：** `bun run review:package` 生成干净提交的审查包与 SHA-256 manifest；`docs/EXTERNAL-REVIEW-REQUEST.md` 定义范围、评审人资格、交付物和 triage 流程；`docs/REVIEWER-SHORTLIST.md` 与 `docs/REVIEW-OUTREACH.md` 为选择/联系审查方的第一步。
 - [x] 生成版本化审查包与 manifest（`scripts/prepare-review-package.ts`）。
 
 - [ ] 外部审查方接收 `docs/SECURITY-REVIEW-M2.md` 的 handoff 包。
