@@ -184,10 +184,13 @@ try {
   const siteFiles = [
     { path: "index.html", content: new TextEncoder().encode("<h1>m3 fixture</h1>") },
     { path: "assets/app.js", content: new TextEncoder().encode("console.log('m3')") },
+    { path: "assets/empty.txt", content: new Uint8Array() },
+    { path: "assets/big.bin", content: new Uint8Array(12_500).fill(7) },
   ];
   const plan = await planRelease({ site: name, vault, files: siteFiles, profile: "fixture-local", rpcUrls: providers, prune: false });
   record("plan", { batches: plan.batches.length, manifest: plan.manifestSha256, diff: plan.diff });
   let lastBlock = "0";
+  let firstSigned: SignedRequestV1 | null = null;
   for (let batchIndex = 0; batchIndex < plan.batches.length; batchIndex++) {
     const batch = plan.batches[batchIndex]!;
     const request = createRequestV1({
@@ -201,6 +204,7 @@ try {
     const { digest } = encodeRequest(request);
     const signature = await signDigest({ digest, bundle: oldBundle.bundle });
     const signed: SignedRequestV1 = { request, signature, digest };
+    if (batchIndex === 0) firstSigned = signed;
     const simulation = await simulateSignedRequest({ signedRequest: signed, rpcUrl: ENDPOINT, chainId: 196, from: deployer, gasBudget: DEFAULT_RELEASE_LIMITS.gasBudget });
     if (!simulation.withinBudget) throw new Error(`batch ${batchIndex} over gas budget`);
     const tx = await wallet.sendTransaction({ to: vault, data: encodeExecuteData(signed), value: totalCallValue(signed), gas: (BigInt(simulation.gasEstimate) * 110n) / 100n });
@@ -211,6 +215,17 @@ try {
   const verification = await verifyRelease({ plan, rpcUrls: providers, blockNumber: lastBlock });
   if (verification.status !== "VERIFIED") throw new Error(`verification failed: ${JSON.stringify(verification)}`);
   record("release-verified", { blockNumber: verification.blockNumber, files: verification.files.map((file) => ({ path: file.path, ok: file.ok })) });
+
+  if (firstSigned) {
+    let replayRejected = false;
+    try {
+      await simulateSignedRequest({ signedRequest: firstSigned, rpcUrl: ENDPOINT, chainId: 196, from: deployer, gasBudget: DEFAULT_RELEASE_LIMITS.gasBudget });
+    } catch {
+      replayRejected = true;
+    }
+    if (!replayRejected) throw new Error("successful request was accepted a second time in simulation");
+    record("replay-simulation-rejected", { digest: firstSigned.digest });
+  }
 
   const feeHash = await wallet.writeContract({ address: binding, abi: artifact("FixtureBinding").abi, functionName: "setMonthlyFee", args: [1_000_000_000_000_000_000n], gas: 100_000n });
   await waitReceipt(feeHash);
