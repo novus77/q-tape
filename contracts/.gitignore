@@ -3,5 +3,5 @@ vendor/
 bin/
 out/
 cache/
-fixtures/
+/fixtures/
 broadcast/

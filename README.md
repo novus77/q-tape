@@ -12,6 +12,7 @@ Q-Tape 把 circuit NFT 的站点控制权交给 Falcon 密钥控制的 Vault，�
 - [开发计划](docs/DEVELOPMENT-PLAN.md)：从已验证 PoC 到 MVP 的实施顺序与当前状态。
 - [M1 验收记录](docs/ACCEPTANCE.md)：实际命令、测试结果、覆盖映射与未完成项。
 - [M2 计划](docs/DEVELOPMENT-PLAN-M2.md)、[M2 验收](docs/ACCEPTANCE-M2.md)、[M2 安全审查记录](docs/SECURITY-REVIEW-M2.md)、[Pilot 手册](docs/PILOT.md)。
+- [M3 试点计划](docs/DEVELOPMENT-PLAN-M3.md)、[M3.3 self-hosted fixture 演练](docs/M3-FIXTURE.md)、[M3 preflight](docs/M3-PREFLIGHT.md)、[运营/监控 runbook](docs/OPERATIONS.md)。
 - [发布说明](docs/RELEASE-NOTES.md)：0.1.0-m1 新增模块与已知限制。
 - [CLI 使用说明](docs/CLI.md)、[集成说明](docs/INTEGRATION.md)、[relayer](docs/RELAYER.md)、[密钥与备份](docs/KEYS.md)。
 - [实际验证报告](docs/VERIFICATION.md)：21 项 Foundry 测试与 5 个独立应用端本地交易行为用例；[独立仓库重跑证据](evidence/standalone-2026-11-02/README.md)。

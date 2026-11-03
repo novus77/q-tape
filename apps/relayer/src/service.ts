@@ -37,6 +37,15 @@ export function createRelayerApp(options: RelayerAppOptions): RelayerApp {
         const health = await options.chain.health();
         return json({ ok: true, chainId: options.chain.chainId(), blockNumber: health.blockNumber });
       }
+      if (request.method === "GET" && url.pathname === "/metrics") {
+        const health = await options.chain.health();
+        return json({
+          ok: true,
+          chainId: options.chain.chainId(),
+          blockNumber: health.blockNumber,
+          requests: options.store.snapshot(),
+        });
+      }
       if (request.method === "POST" && url.pathname === "/v1/requests") {
         return await handlePost(request);
       }
