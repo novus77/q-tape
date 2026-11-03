@@ -21,7 +21,7 @@ The drill covers:
 - fixture deployment and profile registration (`fixture-local`)
 - formal Guardian deployment at the predicted address with a real Falcon KeyProof
 - `inspectSite` before/after NFT deposit (`UNPROTECTED` → `PROTECTED`)
-- ReleasePlan containing nested, empty and multi-chunk files → sign → submit → same-block two-endpoint readback `VERIFIED`
+- ReleasePlan containing nested and empty files → sign → submit → same-block two-endpoint readback `VERIFIED`
 - replay simulation rejected after a successful request
 - nonzero renewal (`monthlyFee = 1 ether`) with exact amount forwarding
 - key rotation and exit to a fixed recipient
