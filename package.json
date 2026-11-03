@@ -41,6 +41,7 @@
     "build:vite-fixture": "vite build examples/vite-site --outDir dist --emptyOutDir",
     "monitor": "bun scripts/monitor.ts",
     "m3:fixture": "cd contracts && forge build && cd .. && bun scripts/m3-fixture-e2e.ts",
-    "m3:preflight": "bun scripts/m3-preflight.ts"
+    "m3:preflight": "bun scripts/m3-preflight.ts",
+    "test:m3": "bash scripts/test-m3.sh"
   }
 }
