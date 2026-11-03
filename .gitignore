@@ -24,3 +24,6 @@ examples/vite-site/dist/
 
 # adapter test temp directories
 packages/adapter-vite/test/.vite-*/
+
+# generated review packages
+review-artifacts/

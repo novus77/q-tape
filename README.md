@@ -4,7 +4,7 @@
 
 Q-Tape 把 circuit NFT 的站点控制权交给 Falcon 密钥控制的 Vault，让独立 CLI 或第三方发布工具只能执行用户明确批准的修改。
 
-**当前状态：M1 本地 fork MVP 已实现并通过验收；M2 内部候选（安全审查准备、非零费用 fixture、Vite 适配、浏览器组件测试）已完成，但独立外部审查仍未完成。未经安全审计，未部署主网，不接收真实资产。** 正式 Vault、本地 native signer、age 加密备份、Client SDK、CLI、可替换 relayer 和只读/普通钱包 Web 已存在；TapeCI、HashPort 等第三方平台集成尚未完成，也不对外声称已集成。
+**当前状态：M1 本地 fork MVP 已实现并通过验收；M2 内部候选（安全审查准备、非零费用 fixture、Vite 适配、浏览器组件测试）已完成；M3 本地 fixture/监控/试点工具已开发。项目方已记录“暂不进行外部独立审查”的本地/测试范围风险接受：[RISK-WAIVER-2026-11-03.md](docs/RISK-WAIVER-2026-11-03.md)。未经安全审计，未部署主网，不接收真实资产，M3.4 主网试点保持阻塞。** 正式 Vault、本地 native signer、age 加密备份、Client SDK、CLI、可替换 relayer 和只读/普通钱包 Web 已存在；TapeCI、HashPort 等第三方平台集成尚未完成，也不对外声称已集成。
 
 ## 从哪里开始
 
@@ -12,7 +12,7 @@ Q-Tape 把 circuit NFT 的站点控制权交给 Falcon 密钥控制的 Vault，�
 - [开发计划](docs/DEVELOPMENT-PLAN.md)：从已验证 PoC 到 MVP 的实施顺序与当前状态。
 - [M1 验收记录](docs/ACCEPTANCE.md)：实际命令、测试结果、覆盖映射与未完成项。
 - [M2 计划](docs/DEVELOPMENT-PLAN-M2.md)、[M2 验收](docs/ACCEPTANCE-M2.md)、[M2 安全审查记录](docs/SECURITY-REVIEW-M2.md)、[Pilot 手册](docs/PILOT.md)。
-- [M3 试点计划](docs/DEVELOPMENT-PLAN-M3.md)、[M3.3 self-hosted fixture 演练](docs/M3-FIXTURE.md)、[M3 preflight](docs/M3-PREFLIGHT.md)、[M3.4 pilot approval](docs/M3-PILOT-APPROVAL.md)、[M3 pilot report](docs/M3-PILOT-REPORT.md)、[运营/监控 runbook](docs/OPERATIONS.md)。
+- [M3 试点计划](docs/DEVELOPMENT-PLAN-M3.md)、[本地验收记录](docs/ACCEPTANCE-M3-LOCAL.md)、[风险接受记录](docs/RISK-WAIVER-2026-11-03.md)、[外部审查请求](docs/EXTERNAL-REVIEW-REQUEST.md)、[审查方选择/外联](docs/REVIEWER-SHORTLIST.md)、[M3.3 self-hosted fixture 演练](docs/M3-FIXTURE.md)、[M3 preflight](docs/M3-PREFLIGHT.md)、[M3.4 pilot approval](docs/M3-PILOT-APPROVAL.md)、[M3 pilot report](docs/M3-PILOT-REPORT.md)、[运营/监控 runbook](docs/OPERATIONS.md)。
 - [发布说明](docs/RELEASE-NOTES.md)：0.1.0-m1 新增模块与已知限制。
 - [CLI 使用说明](docs/CLI.md)、[集成说明](docs/INTEGRATION.md)、[relayer](docs/RELAYER.md)、[密钥与备份](docs/KEYS.md)。
 - [实际验证报告](docs/VERIFICATION.md)：21 项 Foundry 测试与 5 个独立应用端本地交易行为用例；[独立仓库重跑证据](evidence/standalone-2026-11-02/README.md)。

@@ -44,6 +44,7 @@
     "m3:preflight": "bun scripts/m3-preflight.ts",
     "test:m3": "bash scripts/test-m3.sh",
     "m3:pilot": "bun scripts/m3-pilot.ts",
-    "m3:report": "bun scripts/m3-report.ts"
+    "m3:report": "bun scripts/m3-report.ts",
+    "review:package": "bun scripts/prepare-review-package.ts"
   }
 }
