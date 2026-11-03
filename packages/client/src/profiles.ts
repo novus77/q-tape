@@ -33,3 +33,7 @@ export function getProfile(id = XLAYER_MAINNET_PROFILE.id): ChainProfile {
 export function listProfiles(): ChainProfile[] {
   return Object.values(PROFILES);
 }
+
+export function registerProfile(profile: ChainProfile): void {
+  PROFILES[profile.id] = profile;
+}

@@ -3,7 +3,7 @@ export { QtapeClientError, clientError } from "./errors.js";
 export type { ClientErrorCode } from "./errors.js";
 export { displayLabel, parseTapeName } from "./name.js";
 export type { ParsedTapeName } from "./name.js";
-export { XLAYER_MAINNET_PROFILE, getProfile, listProfiles } from "./profiles.js";
+export { XLAYER_MAINNET_PROFILE, getProfile, listProfiles, registerProfile } from "./profiles.js";
 export {
   createProvider,
   createProviders,
