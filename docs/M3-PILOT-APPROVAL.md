@@ -46,4 +46,4 @@ Output is JSON with `ok`, approval summary, observed block/hash/holder/protectio
 
 ## Boundary
 
-The approval file is not a security review by itself. External review, explicit asset/费用 authorization, and a named pilot owner are prerequisites. Do not put private keys, passphrases or real user data in the approval file.
+The approval file is not a security review by itself. External review, explicit asset/费用 authorization, and a named pilot owner are prerequisites. An owner risk waiver (for local/test only) is **not** a valid external review and must not be used to pass `externalReview.status = "passed"`. Do not put private keys, passphrases or real user data in the approval file.

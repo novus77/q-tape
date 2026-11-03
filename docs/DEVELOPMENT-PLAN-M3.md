@@ -18,10 +18,14 @@
 
 **Gate:** 监控脚本在本地 relayer + fork 上可运行；费用上限不依赖单笔/单日预算之外的隐含授权。
 
-## Task M3.2：外部安全审查闭环（阻塞）
+## Task M3.2：外部安全审查（当前为 owner waiver）
+
+**Owner decision（2026-11-03）：** 暂不启动独立外部审查；仅在本地/测试环境继续。详见 [RISK-WAIVER-2026-11-03.md](RISK-WAIVER-2026-11-03.md)。这不是审计，M3.4 保持阻塞。
+
 
 **准备产物：** `bun run review:package` 生成干净提交的审查包与 SHA-256 manifest；`docs/EXTERNAL-REVIEW-REQUEST.md` 定义范围、评审人资格、交付物和 triage 流程；`docs/REVIEWER-SHORTLIST.md` 与 `docs/REVIEW-OUTREACH.md` 为选择/联系审查方的第一步。
 - [x] 生成版本化审查包与 manifest（`scripts/prepare-review-package.ts`）。
+- [x] 记录 owner waiver 与禁止范围（`docs/RISK-WAIVER-2026-11-03.md`）。
 
 - [ ] 外部审查方接收 `docs/SECURITY-REVIEW-M2.md` 的 handoff 包。
 - [ ] Critical/High findings 修复并复核；Medium/Low 有明确接受或修复记录。
