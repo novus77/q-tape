@@ -28,12 +28,12 @@
 
 ## Task M3.3：测试/试点环境演练
 
-- [ ] 明确链、RPC 运营方、site name、NFT/tokenId/Container、测试资产与费用预算。
-- [ ] 固定 profile 的 implementation slot、processor code hash、verifier code hash 和 Vault 地址。
-- [ ] 使用测试密钥完成从空 Vault、deposit、发布、回读、续期、换钥到 exit 的演练。
-- [ ] 验证监控、告警、relayer 停止后用户自行广播、RPC 分歧停止和紧急退出。
+- [x] 明确链、RPC 运营方、site name、NFT/tokenId/Container、测试资产与费用预算（本地 self-hosted fixture：chain 196、10.2.0.tape、fixture NFT/Container；见 `docs/M3-FIXTURE.md`）。
+- [x] 固定 profile 的 implementation slot、processor code hash、verifier code hash 和 Vault 地址（fixture profile 运行时写入并校验）。
+- [x] 使用测试密钥完成从空 Vault、deposit、发布、回读、续期、换钥到 exit 的演练（`bun run m3:fixture`）。
+- [ ] 验证监控、告警、relayer 停止后用户自行广播、RPC 分歧停止和紧急退出（真实测试/试点环境待做）。
 
-**Gate:** 演练全程无真实资产；测试网/自部署 fixture 与官方协议兼容性声明严格区分。
+**Gate:** 本地 self-hosted fixture 演练已通过且全程无真实资产；真实测试网/官方协议环境仍未执行，fixture 不能写成官方协议兼容性。
 
 ## Task M3.4：小范围主网专用站点试点
 

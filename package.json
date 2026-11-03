@@ -39,6 +39,7 @@
     "m2:e2e": "cd contracts && forge build && cd .. && bun scripts/m2-e2e.ts",
     "test:m2": "bash scripts/test-m2.sh",
     "build:vite-fixture": "vite build examples/vite-site --outDir dist --emptyOutDir",
-    "monitor": "bun scripts/monitor.ts"
+    "monitor": "bun scripts/monitor.ts",
+    "m3:fixture": "cd contracts && forge build && cd .. && bun scripts/m3-fixture-e2e.ts"
   }
 }
