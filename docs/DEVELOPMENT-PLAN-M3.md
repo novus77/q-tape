@@ -37,8 +37,11 @@
 
 ## Task M3.4：小范围主网专用站点试点
 
+**新增前置工具：** `bun scripts/m3-pilot.ts --approval <file>` 只读校验审批文件、外部审查状态、观察到的 site/container/token/Vault 和预算；`docs/M3-PILOT-APPROVAL.md` 给出字段与边界。工具通过不等于主网获批。
+
 前置：外部审查通过 + 明确书面批准 + 确定专用站点/资产/预算 + 监控和退出方案。试点只接受专用发布 circuit；不接收 TapeSend 兼容性声明。
 
+- [x] 提供试点审批 schema/validator 和只读 pilot preflight（`scripts/m3-pilot.ts`、`docs/M3-PILOT-APPROVAL.md`）。
 - [ ] 试点范围和资产清单经用户确认，完整展示链、Vault、NFT、Container、操作与费用。
 - [ ] 设置 relayer gas/value 限额和人工监控；不承诺无偿长期服务。
 - [ ] 发布后同区块双运营方回读；异常时停止提交并保留用户自行广播能力。

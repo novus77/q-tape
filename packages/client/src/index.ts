@@ -27,6 +27,8 @@ export type { ArtifactFile } from "./planner.js";
 export { readSiteFileBytes, readSiteFileInfo, listSitePaths, manifestSha256, bytesSha256 } from "./files.js";
 export { MAX_RENEWAL_MONTHS, buildRenewalCall, calculateRenewalTotal, readRenewalQuote } from "./fees.js";
 export type { RenewalQuote } from "./fees.js";
+export { PILOT_APPROVAL_SCHEMA, PILOT_MAX_GAS_PER_REQUEST, PILOT_OPERATIONS, checkPilotApproval, parsePilotApproval } from "./pilot.js";
+export type { PilotApproval, PilotApprovalCheck, PilotApprovalContext, PilotApprovalIssue, PilotOperation } from "./pilot.js";
 export { assertDigestMatches, encodeExecuteData, simulateSignedRequest, totalCallValue } from "./simulate.js";
 export type { SimulationResult, SimulateInput } from "./simulate.js";
 export { submitSignedRequest } from "./submit.js";
