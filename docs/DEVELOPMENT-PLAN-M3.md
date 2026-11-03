@@ -51,6 +51,8 @@
 
 ## Task M3.5：试点验收与复盘
 
+**本地工具：** `bun scripts/m3-report.ts` 从 fixture 结果生成受限的 pilot report（`qtape.pilot-report.v1`），明确标记 local fixture；见 `docs/M3-PILOT-REPORT.md`。
+
 - [ ] 记录实际费用、延迟、失败率、RPC 分歧、恢复演练和用户操作摩擦。
 - [ ] 更新 [ACCEPTANCE-M2.md](ACCEPTANCE-M2.md) 之后的试点报告；未验证项不得写成已完成。
 - [ ] 明确是否进入下一阶段；不预设主网上线日期。

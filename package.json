@@ -43,6 +43,7 @@
     "m3:fixture": "cd contracts && forge build && cd .. && bun scripts/m3-fixture-e2e.ts",
     "m3:preflight": "bun scripts/m3-preflight.ts",
     "test:m3": "bash scripts/test-m3.sh",
-    "m3:pilot": "bun scripts/m3-pilot.ts"
+    "m3:pilot": "bun scripts/m3-pilot.ts",
+    "m3:report": "bun scripts/m3-report.ts"
   }
 }
