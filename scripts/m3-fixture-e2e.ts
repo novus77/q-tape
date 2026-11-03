@@ -248,6 +248,7 @@ try {
   if (owner.toLowerCase() !== recipient.toLowerCase()) throw new Error("exit recipient mismatch");
   record("exited", { owner, transactionHash: exitTx });
 
+  await Bun.write(resolve(OUT_DIR, "profile.json"), JSON.stringify(profile, null, 2) + "\n");
   await Bun.write(resolve(OUT_DIR, "result.json"), JSON.stringify({ ok: true, fixtureOnly: true, publicChainTransactionsBroadcast: 0, profile, vault, records }, null, 2) + "\n");
   console.log("M3_FIXTURE_E2E_OK", JSON.stringify({ vault, batches: plan.batches.length, lastBlock }));
 } finally {
