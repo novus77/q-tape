@@ -10,6 +10,7 @@ export type ClientErrorCode =
   | "RPC_DISAGREEMENT"
   | "RPC_UNAVAILABLE"
   | "INVALID_REQUEST"
+  | "NOT_FOUND"
   | "INVALID_SIGNATURE"
   | "NONCE_CONFLICT"
   | "EXPIRED"

@@ -3,6 +3,28 @@ import { clientError } from "./errors.js";
 import { assertDigestMatches, encodeExecuteData, totalCallValue } from "./simulate.js";
 import type { Submission, SubmitSignedRequestInput, SubmitTransport } from "./types.js";
 
+export async function getSubmissionStatus(
+  digest: `0x${string}`,
+  transport: { url: string; fetch?: typeof fetch },
+): Promise<Submission> {
+  const fetchImpl = transport.fetch ?? fetch;
+  const response = await fetchImpl(`${transport.url.replace(/\/$/, "")}/v1/requests/${digest}`);
+  const body = (await response.json().catch(() => null)) as Record<string, unknown> | null;
+  if (!response.ok) {
+    const errorBody = body?.error as { code?: string; message?: string } | undefined;
+    if (response.status === 404 || errorBody?.code === "NOT_FOUND") clientError("NOT_FOUND", errorBody?.message ?? "request not found");
+    clientError("SIMULATION_FAILED", errorBody?.message ?? `relayer returned HTTP ${response.status}`);
+  }
+  const status = typeof body?.status === "string" ? body.status : "unknown";
+  return {
+    digest,
+    status: status === "confirmed" ? "confirmed" : status === "reverted" ? "reverted" : status === "unknown" ? "unknown" : "submitted",
+    transactionHash: (body?.transactionHash as `0x${string}` | null | undefined) ?? null,
+    blockNumber: body?.blockNumber === undefined || body.blockNumber === null ? null : String(body.blockNumber),
+    error: typeof body?.error === "string" ? body.error : null,
+  };
+}
+
 export async function submitSignedRequest(input: SubmitSignedRequestInput, transport: SubmitTransport): Promise<Submission> {
   const signedRequest = input.signedRequest;
   assertDigestMatches(signedRequest);

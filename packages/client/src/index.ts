@@ -33,7 +33,7 @@ export { PILOT_REPORT_SCHEMA, buildPilotReport } from "./pilot-report.js";
 export type { PilotReport, PilotReportEvidence, PilotReportInput } from "./pilot-report.js";
 export { assertDigestMatches, encodeExecuteData, simulateSignedRequest, totalCallValue } from "./simulate.js";
 export type { SimulationResult, SimulateInput } from "./simulate.js";
-export { submitSignedRequest } from "./submit.js";
+export { getSubmissionStatus, submitSignedRequest } from "./submit.js";
 export { verifyRelease } from "./verify.js";
 export { buildDepositPlan, prepareVault, readVaultState, readVaultFromProvider } from "./vault.js";
 export type { ReadVaultInput } from "./vault.js";
