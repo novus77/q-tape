@@ -18,7 +18,13 @@ bun scripts/monitor.ts \
   --chain-id 196 --max-lag 300
 ```
 
-The probe prints JSON and exits 1 on chain mismatch, unhealthy relayer, or excessive block lag.
+The probe prints JSON and exits 1 on chain mismatch, unhealthy relayer, or excessive block lag. Optional alert thresholds:
+
+```bash
+--max-unknown 0 --max-reverted 0 --max-submitted 5
+```
+
+`ops/prometheus/qtape-alerts.yml` contains Prometheus alert rules for relayer down, unknown results and stuck submissions. The relayer exposes JSON at `/metrics` and Prometheus text at `/metrics.prom`.
 
 Suggested alert conditions for a pilot:
 

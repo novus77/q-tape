@@ -153,6 +153,18 @@ describe("relayer HTTP service", () => {
     expect(body.requests.total).toBe(2);
     expect(body.requests.byStatus.submitted).toBe(2);
   });
+
+  test("exposes Prometheus metrics without signatures or key material", async () => {
+    const { app } = appWith(new FakeChain());
+    await post(app, signed("0"));
+    const response = await app.fetch(new Request("http://relay.test/metrics.prom"));
+    expect(response.status).toBe(200);
+    expect(response.headers.get("content-type")).toContain("text/plain");
+    const text = await response.text();
+    expect(text).toContain('qtape_relayer_requests_total{status="submitted"} 1');
+    expect(text).toContain('qtape_relayer_requests_total{status="all"} 1');
+    expect(text).not.toContain("0x00");
+  });
   test("health endpoint reports chain and block", async () => {
     const { app } = appWith(new FakeChain());
     const response = await app.fetch(new Request("http://relay.test/health"));
