@@ -18,7 +18,13 @@ bun scripts/monitor.ts \
   --chain-id 196 --max-lag 300
 ```
 
-The probe prints JSON and exits 1 on chain mismatch, unhealthy relayer, or excessive block lag.
+The probe prints JSON and exits 1 on chain mismatch, unhealthy relayer, or excessive block lag. Optional alert thresholds:
+
+```bash
+--max-unknown 0 --max-reverted 0 --max-submitted 5
+```
+
+`ops/prometheus/qtape-alerts.yml` contains Prometheus alert rules for relayer down, unknown results and stuck submissions. The relayer exposes JSON at `/metrics` and Prometheus text at `/metrics.prom`.
 
 Suggested alert conditions for a pilot:
 
@@ -39,7 +45,7 @@ Suggested alert conditions for a pilot:
 
 1. Stop accepting new requests (`server.stop`) but keep records; do not delete evidence.
 2. Check the digest record, transaction receipt, current nonce and actual file bytes at one block across two RPC operators.
-3. If status is `unknown`, do **not** blindly resubmit. Wait for chain evidence; a user may self-broadcast only if the original request is still valid and nonce matches.
+3. If status is `unknown`, do **not** blindly resubmit. Query the relayer record with `qtape request status <digest> --relayer <url>` and inspect chain evidence; a user may self-broadcast only if the original request is still valid and nonce matches.
 4. If a Vault is compromised or a wrong request was signed, use the pre-approved exit/key-rotation path with the user's local signer; no classic ECDSA recovery.
 5. Publish an incident note without keys, signatures, passphrases or private user data.
 

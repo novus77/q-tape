@@ -8,6 +8,7 @@ Date: 2026-11-03. Scope: local/test environment only; external independent revie
 | M1/M2 regression | `bun run test:fork` | 21 experiment + 59 formal contract + 18 client tests passed; M1 E2E OK |
 | M2 local lifecycle | `bun run m2:e2e` | Vite build → plan → sign → submit → same-block readback `VERIFIED` → renewal → rotate → exit; relayer metrics/monitor probe OK |
 | M3.3 self-hosted fixture | `bun run test:m3` | fixture deploy → Guardian predicted address → `PROTECTED` → publish/readback → nonzero renewal → rotate → exit; preflight checks OK |
+| Web browser E2E | `bun run web:e2e` | Chrome + injected mock EIP-1193: status, deposit, wrong chain, invalid prepare all pass |
 | Review package | `bun run review:package` | 170 tracked files, manifest and archive SHA-256 generated |
 
 ## Status

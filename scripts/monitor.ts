@@ -20,6 +20,9 @@ const relayerUrl = flag("relayer", process.env.Q_TAPE_RELAYER_URL).replace(/\/$/
 const rpcUrl = flag("rpc", process.env.Q_TAPE_MONITOR_RPC_URL);
 const expectedChainId = Number(flag("chain-id", process.env.Q_TAPE_MONITOR_CHAIN_ID ?? "196"));
 const maxLag = BigInt(flag("max-lag", "300"));
+const maxUnknown = BigInt(flag("max-unknown", "-1"));
+const maxReverted = BigInt(flag("max-reverted", "-1"));
+const maxSubmitted = BigInt(flag("max-submitted", "-1"));
 
 async function jsonFetch(url: string, init?: RequestInit): Promise<unknown> {
   const response = await fetch(url, init);
@@ -53,11 +56,16 @@ try {
   if (!health.ok || !metrics.ok) errors.push("relayer health/metrics is not ok");
   if (health.chainId !== expectedChainId || rpcChainId !== expectedChainId) errors.push(`chain mismatch: relayer ${health.chainId}, rpc ${rpcChainId}, expected ${expectedChainId}`);
   if (lag > maxLag) errors.push(`relayer block lag ${lag} exceeds ${maxLag}`);
+  for (const [status, threshold] of [["unknown", maxUnknown], ["reverted", maxReverted], ["submitted", maxSubmitted]] as const) {
+    const count = BigInt(metrics.requests.byStatus[status] ?? 0);
+    if (threshold >= 0n && count > threshold) errors.push(`relayer ${status} count ${count} exceeds ${threshold}`);
+  }
   const result = {
     ok: errors.length === 0,
     checkedAt: new Date().toISOString(),
     relayer: { chainId: health.chainId, blockNumber: health.blockNumber, requests: metrics.requests },
     rpc: { chainId: rpcChainId, blockNumber: rpcBlock.toString(), lag: lag.toString() },
+    thresholds: { maxLag: maxLag.toString(), maxUnknown: maxUnknown.toString(), maxReverted: maxReverted.toString(), maxSubmitted: maxSubmitted.toString() },
     errors,
   };
   console.log(JSON.stringify(result, null, 2));

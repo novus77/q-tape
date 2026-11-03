@@ -3,6 +3,7 @@ import { parseSignedRequestV1, type SignedRequestV1 } from "@qtape/schema";
 import { RelayError } from "./errors.js";
 import type { RelayChain } from "./chain.js";
 import type { RelayStore, RequestRecord, RelayStatus } from "./store.js";
+import { formatPrometheusMetrics } from "./metrics.js";
 
 export interface RelayerAppOptions {
   store: RelayStore;
@@ -45,6 +46,14 @@ export function createRelayerApp(options: RelayerAppOptions): RelayerApp {
           blockNumber: health.blockNumber,
           requests: options.store.snapshot(),
         });
+      }
+      if (request.method === "GET" && url.pathname === "/metrics.prom") {
+        const health = await options.chain.health();
+        return new Response(formatPrometheusMetrics({
+          chainId: options.chain.chainId(),
+          blockNumber: health.blockNumber,
+          requests: options.store.snapshot(),
+        }), { headers: { "content-type": "text/plain; version=0.0.4" } });
       }
       if (request.method === "POST" && url.pathname === "/v1/requests") {
         return await handlePost(request);

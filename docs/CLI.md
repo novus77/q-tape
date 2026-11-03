@@ -71,6 +71,7 @@ qtape request submit exit.json --relayer http://127.0.0.1:8787
 ## 稳定性与边界
 
 - `request submit` 在本地 wallet 模式下会先对确切 calldata 执行 `eth_estimateGas`；超过 `--gas-budget`（默认 8,000,000）时拒绝广播并返回 `BUDGET_EXCEEDED`。
+- `request status <digest>` 只查询 relayer 记录，不重发、不重新签名；用于结果未知/重复提交排查。
 - 多批次使用链上当前 nonce 逐个签；`request sign --batch N` 使用 `plan.nonce + N`，不要跳过已经提交的批次。
 - `release plan` 默认镜像整站（会删除远端多余文件）；只新增/更新时加 `--no-prune`。
 - 空文件、多块文件、符号链接与路径逃逸在规划阶段拒绝；单文件默认上限 1 MiB、整站 5 MiB、每文件 350 块。

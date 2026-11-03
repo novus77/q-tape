@@ -9,6 +9,7 @@ import {
   createProvider,
   encodeExecuteData,
   getProfile,
+  getSubmissionStatus,
   inspectSite,
   planRelease,
   prepareVault,
@@ -52,6 +53,7 @@ const COMMANDS: Record<string, string[]> = {
   "release verify": ["release", "verify"],
   "request sign": ["request", "sign"],
   "request submit": ["request", "submit"],
+  "request status": ["request", "status"],
   "operator revoke": ["operator", "revoke"],
   "key rotate": ["key", "rotate"],
   "vault exit": ["vault", "exit"],
@@ -85,6 +87,8 @@ export async function runCommand(args: ParsedArgs): Promise<CommandResult> {
       return { command, data: await commandRequestSign(args, rest) };
     case "request submit":
       return { command, data: await commandRequestSubmit(args, rest) };
+    case "request status":
+      return { command, data: await commandRequestStatus(args, rest) };
     case "operator revoke":
       return { command, data: await commandOperatorRevoke(args) };
     case "key rotate":
@@ -369,6 +373,12 @@ async function commandRequestSubmit(args: ParsedArgs, rest: string[]) {
   });
 }
 
+async function commandRequestStatus(args: ParsedArgs, rest: string[]) {
+  const digest = rest[0] as Hex | undefined;
+  if (!digest) throw new UsageError("usage: qtape request status <digest> --relayer URL");
+  return await getSubmissionStatus(digest, { url: requireFlag(args, "relayer") });
+}
+
 async function commandReleaseVerify(args: ParsedArgs, rest: string[]) {
   const planPath = rest[0];
   if (!planPath) throw new UsageError("usage: qtape release verify <plan.json> --rpc <url> --rpc <url>");
@@ -501,6 +511,7 @@ export function helpText(): string {
   release verify <plan.json> [--block N] [--rpc URL]... [--json]
   request sign <plan.json> --key <bundle.age> [--batch N] [--out signed.json]
   request submit <signed.json> [--relayer URL | --wallet-address 0x.. | --wallet-key-file <file>] [--rpc URL] [--json]
+  request status <digest> --relayer URL [--json]
 
 Falcon backup passphrases are read from the terminal (or stdin when piped); they are never accepted as flags or environment variables.`;
 }

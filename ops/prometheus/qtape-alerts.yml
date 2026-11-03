@@ -1,0 +1,38 @@
+groups:
+  - name: qtape-relayer
+    rules:
+      - alert: QtapeRelayerDown
+        expr: up{job="qtape-relayer"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: Q-Tape relayer is unavailable
+          description: Users may still self-broadcast the same signed request; check relayer logs and RPC health.
+
+      - alert: QtapeRelayerUnknownRequests
+        expr: qtape_relayer_requests_total{status="unknown"} > 0
+        for: 5m
+        labels:
+          severity: high
+        annotations:
+          summary: Q-Tape relayer has unknown broadcast results
+          description: Do not blindly resend. Check receipts, nonce and actual files at one block before any new signature.
+
+      - alert: QtapeRelayerStuckSubmitted
+        expr: qtape_relayer_requests_total{status="submitted"} > 5
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: Multiple Q-Tape requests remain unconfirmed
+          description: Check RPC finality, gas balance and receipt status; users may self-broadcast the same valid request.
+
+      - alert: QtapeRelayerRpcDisagreement
+        expr: increase(qtape_relayer_requests_total{status="reverted"}[5m]) > 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Q-Tape relayer observed failed requests
+          description: Review error codes; RPC_DISAGREEMENT or repeated simulation failures are stop conditions.
